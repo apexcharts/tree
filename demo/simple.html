@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../dist/ApexTree.js"></script>
+</head>
+<body>
+  <div id="svg-tree"></div>
+  <button id="layoutTop">Top</button>
+  <button id="layoutLeft">Left</button>
+  <script>
+    const data = {
+      "name": "A",
+      "children": [
+        {
+          "name": "AA",
+          "children": [
+            {
+              "name": "AAA"
+            },
+            {
+              "name": "AAB"
+            },
+            {
+              "name": "AAC"
+            }
+          ]
+        },
+        {
+          "name": "AB",
+          "children": [
+            {
+              "name": "ABA"
+            },
+            {
+              "name": "ABB"
+            }
+          ]
+        },
+        {
+          "name": "AC",
+          "children": [
+            {
+              "name": "ACA"
+            },
+            {
+              "name": "ACB"
+            },
+            {
+              "name": "ACC"
+            }
+          ]
+        },
+        {
+          "name": "AD",
+          "children": [
+            {
+              "name": "ADA"
+            }
+          ]
+        },
+        {
+          "name": "AE"
+        }
+      ]
+    };
+    const options = {
+      idKey: 'id',
+      parentKey: 'parentId',
+      titleKey: 'name',
+      width: 800,
+      height: 800,
+      nodeWidth: 40,
+      layoutType: 'left',
+    }
+    const tree = new apexcharts.ApexTree(document.getElementById('svg-tree'), data, options);
+    const graph = tree.render();
+    document.getElementById('layoutTop').addEventListener('click', (e) => {
+      graph.changeLayout('top');
+    });
+
+    document.getElementById('layoutLeft').addEventListener('click', (e) => {
+      graph.changeLayout('left');
+    });
+  </script>
+</body>
+</html>
