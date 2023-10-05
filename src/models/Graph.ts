@@ -1,34 +1,42 @@
-import { Dom, G } from '@svgdotjs/svg.js';
-import { flextree } from 'd3-flextree';
-import { Paper } from 'src/modules/Paper';
-import { DirectionConfig, TreeDirection, TreeOptions } from 'src/modules/settings/Options';
+import {Dom, G} from '@svgdotjs/svg.js';
+import {flextree, FlextreeNode} from 'd3-flextree';
+import {Paper} from 'src/modules/Paper';
+import {DirectionConfig, DirectionConfigProperties, TreeDirection, TreeOptions} from 'src/modules/settings/Options';
 
 export interface GraphPoint {
   readonly x: number;
   readonly y: number;
 }
 
+export interface Node {
+  readonly name: string;
+  readonly children: Array<Node>;
+}
+
+export interface TreeNode<Datum> extends FlextreeNode<Datum> {
+  hiddenChildren: Array<TreeNode<Node>> | undefined;
+}
+
 export class Graph {
   public options: TreeOptions;
-  public rootNode: any;
+  public rootNode: TreeNode<Node>;
   public element: Dom;
   public paper: Paper;
-  private directionConfig: any;
+  private directionConfig: DirectionConfigProperties;
 
-  constructor(element: Dom, data: any, options: TreeOptions) {
+  constructor(element: Dom, options: TreeOptions) {
     this.element = element;
     this.options = options;
-    this.rootNode = data;
     const {width, height} = this.options;
     this.paper = new Paper(this.element, width, height);
     this.directionConfig = DirectionConfig[this.options.direction];
   }
 
   public clear() {
-    this.paper.svg.clear();
+    this.paper.clear();
   }
 
-  public construct(): void {
+  public construct(data: Node): void {
     const {nodeWidth, nodeHeight, siblingSpacing, childrenSpacing} = this.options;
     const flexLayout = flextree({
       nodeSize: () => {
@@ -43,7 +51,7 @@ export class Graph {
       },
       spacing: (nodeA, nodeB) => (nodeA.parent == nodeB.parent ? 0 : 80),
     });
-    const tree = flexLayout.hierarchy(this.rootNode);
+    const tree = flexLayout.hierarchy(data);
     this.rootNode = flexLayout(tree) as any;
   }
 
@@ -71,7 +79,8 @@ export class Graph {
     });
   }
 
-  public getEdge(node: any) {
+  public getEdge(node: TreeNode<Node>): string | null {
+    if (!node || !node.parent) return null;
     const {nodeWidth, nodeHeight} = this.options;
     const {edgeX, edgeY, edgeParentX, edgeParentY, edgeMidX, edgeMidY, calculateEdge} = this.directionConfig;
     const newNode = this.directionConfig.swap(node);
@@ -93,32 +102,31 @@ export class Graph {
     return calculateEdge(child, parent, mid, {sy: 0});
   }
 
-  public renderEdge(node: any, group: G) {
-    if (node && node.parent) {
-      const edge = this.getEdge(node);
-      const path = Paper.drawPath(edge);
-      group.add(path);
-    }
+  public renderEdge(node: TreeNode<Node>, group: G) {
+    const edge = this.getEdge(node);
+    if (!edge) return;
+    const path = Paper.drawPath(edge);
+    group.add(path);
   }
 
-  public collapse(nodeId: any) {
+  public collapse(nodeId: string) {
     const nodes = this.rootNode.descendants();
     const node = nodes.find((n: any) => n.data.name === nodeId);
     if (node?.children) {
-      node.hiddenChilds = node.children;
-      node.hiddenChilds.forEach((child: any) => this.collapse(child));
-      node.children = null;
+      node.hiddenChildren = node.children;
+      node.hiddenChildren.forEach((child: any) => this.collapse(child));
+      node.children = undefined;
       this.render();
     }
   }
 
-  public expand(nodeId: any) {
+  public expand(nodeId: string) {
     const nodes = this.rootNode.descendants();
     const node = nodes.find((n: any) => n.data.name === nodeId);
-    if (node?.hiddenChilds) {
-      node.children = node.hiddenChilds;
+    if (node?.hiddenChildren) {
+      node.children = node.hiddenChildren;
       node.children.forEach((child: any) => this.expand(child));
-      node.hiddenChilds = null;
+      node.hiddenChildren = undefined;
       this.render();
     }
   }
@@ -141,6 +149,6 @@ export class Graph {
     nodes.forEach((node: any) => {
       this.renderEdge(node, mainGroup);
     });
-    this.paper.svg.add(mainGroup);
+    this.paper.add(mainGroup);
   }
 }

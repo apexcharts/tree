@@ -1,4 +1,4 @@
-import { GraphPoint } from 'src/models';
+import {GraphPoint} from 'src/models';
 
 /* Horizontal diagonal generation algorithm - https://observablehq.com/@bumbeishvili/curved-edges-compact-horizontal */
 export const curvedEdgesHorizontal = (s: GraphPoint, t: GraphPoint, m: GraphPoint): string => {

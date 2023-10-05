@@ -1,4 +1,6 @@
-import { curvedEdgesHorizontal, curvedEdgesVertical } from '../GraphUtils';
+import {GraphPoint} from 'src/models';
+import {Node, TreeNode} from 'src/models/Graph';
+import {curvedEdgesHorizontal, curvedEdgesVertical} from '../GraphUtils';
 
 export type TreeDirection = 'left' | 'top' | 'right' | 'bottom';
 
@@ -30,41 +32,70 @@ export const DefaultOptions: TreeOptions = {
   direction: 'top',
 };
 
-export const DirectionConfig: Record<string, any> = {
+export interface DirectionConfigProperties {
+  readonly containerX: (params: Partial<ConfigParams>) => number;
+  readonly containerY: (params: Partial<ConfigParams>) => number;
+  readonly edgeX: (params: Partial<ConfigParams>) => number;
+  readonly edgeY: (params: Partial<ConfigParams>) => number;
+  readonly edgeMidX: (params: Partial<ConfigParams>) => number;
+  readonly edgeMidY: (params: Partial<ConfigParams>) => number;
+  readonly edgeParentX: (params: Partial<ConfigParams>) => number;
+  readonly edgeParentY: (params: Partial<ConfigParams>) => number;
+  readonly nodeFlexSize: (params: Partial<ConfigParams>) => [number, number];
+  readonly calculateEdge: (s: GraphPoint, t: GraphPoint, m: GraphPoint, offsets: any) => string;
+  readonly nodeUpdateXY: (params: Partial<ConfigParams>) => {x: number; y: number};
+  readonly swap: (node: TreeNode<Node>) => TreeNode<Node>;
+}
+
+interface ConfigParams {
+  readonly node: any;
+  readonly parent: any;
+  readonly width: number;
+  readonly height: number;
+  readonly nodeWidth: number;
+  readonly nodeHeight: number;
+  readonly siblingsMargin: number;
+  readonly childrenMargin: number;
+  readonly x: number;
+  readonly y: number;
+}
+
+export const DirectionConfig: Record<string, DirectionConfigProperties> = {
   top: {
-    containerX: ({width}: any) => width / 2,
+    containerX: ({width}: ConfigParams) => width / 2,
     containerY: () => 0,
-    edgeX: ({node, nodeWidth}: any) => node.x + nodeWidth / 2,
-    edgeY: ({node}: any) => node.y,
-    edgeMidX: ({node, nodeWidth}: any) => node.x + nodeWidth / 2,
-    edgeMidY: ({node}: any) => node.y,
-    edgeParentX: ({parent, nodeWidth}: any) => parent.x + nodeWidth / 2,
-    edgeParentY: ({parent, nodeHeight}: any) => parent.y + nodeHeight,
-    nodeFlexSize: ({nodeWidth, nodeHeight, siblingsMargin, childrenMargin}: any): [number, number] => {
+    edgeX: ({node, nodeWidth}: ConfigParams) => node.x + nodeWidth / 2,
+    edgeY: ({node}: ConfigParams) => node.y,
+    edgeMidX: ({node, nodeWidth}: ConfigParams) => node.x + nodeWidth / 2,
+    edgeMidY: ({node}: ConfigParams) => node.y,
+    edgeParentX: ({parent, nodeWidth}: ConfigParams) => parent.x + nodeWidth / 2,
+    edgeParentY: ({parent, nodeHeight}: ConfigParams) => parent.y + nodeHeight,
+    nodeFlexSize: ({nodeWidth, nodeHeight, siblingsMargin, childrenMargin}: ConfigParams): [number, number] => {
       return [nodeWidth + siblingsMargin, nodeHeight + childrenMargin];
     },
     calculateEdge: curvedEdgesVertical,
-    nodeUpdateXY: ({x, y, width}: any) => ({x: x - width / 2, y}),
-    swap: (node: any) => node,
+    nodeUpdateXY: ({x, y, width}: ConfigParams) => ({x: x - width / 2, y}),
+    swap: (node: TreeNode<Node>) => node,
   },
   left: {
     containerX: () => 0,
-    containerY: ({height}: any) => height / 2,
-    edgeX: ({node}: any) => node.x,
-    edgeY: ({node, nodeHeight}: any) => node.y + nodeHeight / 2,
-    edgeMidX: ({node}: any) => node.x,
-    edgeMidY: ({node, nodeHeight}: any) => node.y + nodeHeight / 2,
-    edgeParentX: ({parent, nodeWidth}: any) => parent.x + nodeWidth,
-    edgeParentY: ({parent, nodeHeight}: any) => parent.y + nodeHeight / 2,
-    nodeFlexSize: ({nodeWidth, nodeHeight, siblingsMargin, childrenMargin}: any) => {
+    containerY: ({height}: ConfigParams) => height / 2,
+    edgeX: ({node}: ConfigParams) => node.x,
+    edgeY: ({node, nodeHeight}: ConfigParams) => node.y + nodeHeight / 2,
+    edgeMidX: ({node}: ConfigParams) => node.x,
+    edgeMidY: ({node, nodeHeight}: ConfigParams) => node.y + nodeHeight / 2,
+    edgeParentX: ({parent, nodeWidth}: ConfigParams) => parent.x + nodeWidth,
+    edgeParentY: ({parent, nodeHeight}: ConfigParams) => parent.y + nodeHeight / 2,
+    nodeFlexSize: ({nodeWidth, nodeHeight, siblingsMargin, childrenMargin}: ConfigParams) => {
       return [nodeHeight + siblingsMargin, nodeWidth + childrenMargin];
     },
     calculateEdge: curvedEdgesHorizontal,
-    nodeUpdateXY: ({x, y, height}: any) => ({y: y - height / 2, x}),
-    swap: (node: any) => ({
-      ...node,
-      x: node.y,
-      y: node.x,
-    }),
+    nodeUpdateXY: ({x, y, height}: ConfigParams) => ({y: y - height / 2, x}),
+    swap: (node: TreeNode<Node>) =>
+      ({
+        ...node,
+        x: node.y,
+        y: node.x,
+      }) as TreeNode<Node>,
   },
 };

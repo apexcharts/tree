@@ -1,9 +1,18 @@
-import {Dom, Rect, SVG, Text, G, TextAttr, Path} from '@svgdotjs/svg.js';
+import {Dom, Element, G, Path, Rect, SVG, Text, TextAttr} from '@svgdotjs/svg.js';
+import '@svgdotjs/svg.panzoom.js';
 
 export class Paper {
-  public svg: Dom;
+  private svg: Dom;
   constructor(element: Dom, width: number, height: number) {
-    this.svg = SVG().addTo(element).size(width, height);
+    this.svg = SVG().addTo(element).size(width, height).viewbox(`0 0 ${width} ${height}`).panZoom();
+  }
+
+  public add(element: Element) {
+    this.svg.add(element);
+  }
+
+  public clear() {
+    this.svg.clear();
   }
 
   static drawRect({
