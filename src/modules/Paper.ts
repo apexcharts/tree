@@ -1,9 +1,13 @@
-import {Dom, Element, G, Path, Rect, SVG, Text, TextAttr} from '@svgdotjs/svg.js';
+import {Dom, Element, G, Path, Rect, Svg, SVG, Text, TextAttr} from '@svgdotjs/svg.js';
 import '@svgdotjs/svg.panzoom.js';
 
 export class Paper {
-  private svg: Dom;
+  private width: number;
+  private height: number;
+  private svg: Svg;
   constructor(element: Dom, width: number, height: number) {
+    this.width = width;
+    this.height = height;
     this.svg = SVG().addTo(element).size(width, height).viewbox(`0 0 ${width} ${height}`).panZoom();
   }
 
@@ -12,7 +16,7 @@ export class Paper {
   }
 
   public clear() {
-    this.svg.clear();
+    this.svg.clear().viewbox(`0 0 ${this.width} ${this.height}`);
   }
 
   static drawRect({

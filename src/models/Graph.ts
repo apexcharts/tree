@@ -49,7 +49,7 @@ export class Graph {
           childrenMargin,
         });
       },
-      spacing: (nodeA, nodeB) => (nodeA.parent == nodeB.parent ? 0 : 80),
+      spacing: 0,
     });
     const tree = flexLayout.hierarchy(data);
     this.rootNode = flexLayout(tree) as any;
@@ -140,8 +140,11 @@ export class Graph {
   public render(): void {
     this.clear();
     const {containerX, containerY} = this.directionConfig;
-    const {width, height} = this.options;
-    const mainGroup = Paper.drawGroup(containerX({width, height}), containerY({width, height}));
+    const {width, height, nodeWidth, nodeHeight} = this.options;
+    const mainGroup = Paper.drawGroup(
+      containerX({width, height, nodeWidth, nodeHeight}),
+      containerY({width, height, nodeWidth, nodeHeight}),
+    );
     this.renderNode(this.rootNode, mainGroup);
 
     const nodes = this.rootNode.descendants().slice(1);
