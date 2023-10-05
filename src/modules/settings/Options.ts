@@ -16,6 +16,7 @@ export interface TreeOptions {
   readonly nodeBorderRadius: number;
   readonly siblingSpacing: number;
   readonly childrenSpacing: number;
+  readonly nodeTemplate: (content: any) => any;
 }
 
 export const DefaultOptions: TreeOptions = {
@@ -26,8 +27,10 @@ export const DefaultOptions: TreeOptions = {
   titleKey: 'name',
   nodeWidth: 50,
   nodeHeight: 30,
+  nodeTemplate: (content: string) =>
+    `<div style='display: flex;justify-content: center;align-items: center;height: 100%;'>${content}</div>`,
   nodeBorderRadius: 5,
-  siblingSpacing: 10,
+  siblingSpacing: 50,
   childrenSpacing: 50,
   direction: 'top',
 };

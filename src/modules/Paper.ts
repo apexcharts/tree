@@ -1,4 +1,4 @@
-import {Dom, Element, G, Path, Rect, Svg, SVG, Text, TextAttr} from '@svgdotjs/svg.js';
+import {Dom, Element, ForeignObject, G, Path, Rect, Svg, SVG, Text, TextAttr} from '@svgdotjs/svg.js';
 import '@svgdotjs/svg.panzoom.js';
 
 export class Paper {
@@ -47,7 +47,6 @@ export class Paper {
     });
     rect.id(id);
     rect.fill(color);
-
     return rect;
   }
 
@@ -70,14 +69,21 @@ export class Paper {
     return textSvg;
   }
 
-  static drawGroup(x: number = 0, y: number = 0) {
+  static drawTemplate(template: any, width: number, height: number): any {
+    const object = new ForeignObject({width, height});
+    object.add(template);
+    return object;
+  }
+
+  static drawGroup(x: number = 0, y: number = 0, id: string, parent: string = '') {
     const group = new G();
-    group.attr({transform: `translate(${x}, ${y})`});
+    group.attr({transform: `translate(${x}, ${y})`, 'data-self': id, 'data-parent': parent});
     return group;
   }
 
-  static drawPath(pathString: string) {
+  static drawPath(pathString: string, id: string) {
     const path = new Path({d: pathString});
+    path.id(id);
     path.fill('none').stroke({color: '#8C8C8C', width: 1});
     return path;
   }

@@ -14,56 +14,71 @@
   <button id="layoutBottom">Bottom</button>
   <script>
     const data = {
+      "id": "A",
       "name": "A",
       "children": [
         {
+          "id": "AA",
           "name": "AA",
           "children": [
             {
+              "id": "AAA",
               "name": "AAA"
             },
             {
+              "id": "AAB",
               "name": "AAB"
             },
             {
+              "id": "AAC",
               "name": "AAC"
             }
           ]
         },
         {
+          "id": "AB",
           "name": "AB",
           "children": [
             {
-              "name": "ABA"
+              "id": "randomtext",
+              "name": "Long text"
             },
             {
+              "id": "ABB",
               "name": "ABB"
             }
           ]
         },
         {
+          "id": "AC",
           "name": "AC",
           "children": [
             {
+              "id": "ACA",
               "name": "ACA"
             },
             {
+              "id": "ACB",
               "name": "ACB"
             },
             {
+              "id": "ACC",
               "name": "ACC"
             }
           ]
         },
         {
+          "id": "AD",
           "name": "AD",
           "children": [
             {
+              "id": "ADA",
               "name": "ADA"
             }
           ]
         },
         {
+          "id": "AE",
           "name": "AE"
         }
       ]
@@ -72,9 +87,12 @@
       idKey: 'id',
       parentKey: 'parentId',
       titleKey: 'name',
-      width: 800,
-      height: 800,
-      nodeWidth: 50,
+      width: 700,
+      height: 700,
+      nodeWidth: 150,
+      nodeHeight: 100,
+      childrenSpacing: 150,
+      siblingSpacing: 50,
       direction: 'top',
     }
     const tree = new apexcharts.ApexTree(document.getElementById('svg-tree'), options);

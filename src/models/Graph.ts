@@ -1,5 +1,6 @@
 import {Dom, G} from '@svgdotjs/svg.js';
 import {flextree, FlextreeNode} from 'd3-flextree';
+import {highlightToPath} from 'src/modules/GraphUtils';
 import {Paper} from 'src/modules/Paper';
 import {DirectionConfig, DirectionConfigProperties, TreeDirection, TreeOptions} from 'src/modules/settings/Options';
 
@@ -9,6 +10,7 @@ export interface GraphPoint {
 }
 
 export interface Node {
+  readonly id: string;
   readonly name: string;
   readonly children: Array<Node>;
 }
@@ -56,10 +58,10 @@ export class Graph {
   }
 
   public renderNode(node: any, mainGroup: G) {
-    const {nodeWidth, nodeHeight, nodeBorderRadius} = this.options;
+    const {nodeWidth, nodeHeight, nodeBorderRadius, nodeTemplate} = this.options;
     const {x, y} = this.directionConfig.swap(node);
     // const {x, y} = node;
-    const group = Paper.drawGroup(x, y);
+    const group = Paper.drawGroup(x, y, node.data.id, node.parent?.data.id);
     const rect = Paper.drawRect({
       width: nodeWidth,
       height: nodeHeight,
@@ -69,9 +71,15 @@ export class Graph {
     });
     group.add(rect);
 
-    const text = Paper.drawText(node.data[this.options.titleKey], {dx: 10, dy: nodeHeight / 1.5});
-    group.add(text);
-
+    // const text = Paper.drawText(node.data[this.options.titleKey], {dx: nodeWidth / 2, dy: nodeHeight / 1.5});
+    const object = Paper.drawTemplate(nodeTemplate(node.data[this.options.titleKey]), nodeWidth, nodeHeight);
+    group.add(object);
+    group.on('mouseover', function () {
+      highlightToPath(this.node, 3);
+    });
+    group.on('mouseout', function () {
+      highlightToPath(this.node, 1);
+    });
     mainGroup.add(group);
 
     node.children?.forEach((child: any) => {
@@ -105,7 +113,7 @@ export class Graph {
   public renderEdge(node: TreeNode<Node>, group: G) {
     const edge = this.getEdge(node);
     if (!edge) return;
-    const path = Paper.drawPath(edge);
+    const path = Paper.drawPath(edge, `${node.data.id}-${node.parent?.data.id}`);
     group.add(path);
   }
 
@@ -144,6 +152,7 @@ export class Graph {
     const mainGroup = Paper.drawGroup(
       containerX({width, height, nodeWidth, nodeHeight}),
       containerY({width, height, nodeWidth, nodeHeight}),
+      'root',
     );
     this.renderNode(this.rootNode, mainGroup);
 

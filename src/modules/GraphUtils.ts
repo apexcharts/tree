@@ -82,3 +82,13 @@ export const curvedEdgesVertical = (s: GraphPoint, t: GraphPoint, m: GraphPoint,
   ];
   return pathArray.join(' ');
 };
+
+export const highlightToPath = (node: HTMLElement, strokeWidth = 1): void => {
+  const self = node.getAttribute('data-self');
+  const parent = node.getAttribute('data-parent');
+  document.querySelector(`[data-self=${self}] rect`)?.setAttribute('stroke-width', strokeWidth.toString());
+  const parentElement: HTMLElement | null = document.querySelector(`[data-self="${parent}"]`);
+  parentElement?.querySelector('rect')?.setAttribute('stroke-width', strokeWidth.toString());
+  document.getElementById(`${self}-${parent}`)?.setAttribute('stroke-width', strokeWidth.toString());
+  parentElement && highlightToPath(parentElement, strokeWidth);
+};
