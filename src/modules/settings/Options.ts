@@ -8,23 +8,22 @@ export interface TreeOptions {
   readonly width: number;
   readonly height: number;
   readonly direction: TreeDirection;
-  readonly parentKey: string;
   readonly idKey: string;
-  readonly titleKey: string;
+  readonly contentKey: string;
   readonly nodeWidth: number;
   readonly nodeHeight: number;
   readonly nodeBorderRadius: number;
   readonly siblingSpacing: number;
   readonly childrenSpacing: number;
   readonly nodeTemplate: (content: any) => any;
+  readonly highlightOnHover: boolean;
 }
 
 export const DefaultOptions: TreeOptions = {
   width: 400,
   height: 400,
-  parentKey: 'parentId',
   idKey: 'id',
-  titleKey: 'name',
+  contentKey: 'name',
   nodeWidth: 50,
   nodeHeight: 30,
   nodeTemplate: (content: string) =>
@@ -33,6 +32,7 @@ export const DefaultOptions: TreeOptions = {
   siblingSpacing: 50,
   childrenSpacing: 50,
   direction: 'top',
+  highlightOnHover: false,
 };
 
 export interface DirectionConfigProperties {

@@ -58,7 +58,7 @@ export class Graph {
   }
 
   public renderNode(node: any, mainGroup: G) {
-    const {nodeWidth, nodeHeight, nodeBorderRadius, nodeTemplate} = this.options;
+    const {nodeWidth, nodeHeight, nodeBorderRadius, nodeTemplate, highlightOnHover} = this.options;
     const {x, y} = this.directionConfig.swap(node);
     // const {x, y} = node;
     const group = Paper.drawGroup(x, y, node.data.id, node.parent?.data.id);
@@ -71,15 +71,17 @@ export class Graph {
     });
     group.add(rect);
 
-    // const text = Paper.drawText(node.data[this.options.titleKey], {dx: nodeWidth / 2, dy: nodeHeight / 1.5});
-    const object = Paper.drawTemplate(nodeTemplate(node.data[this.options.titleKey]), nodeWidth, nodeHeight);
+    // const text = Paper.drawText(node.data[this.options.contentKey], {dx: nodeWidth / 2, dy: nodeHeight / 1.5});
+    const object = Paper.drawTemplate(nodeTemplate(node.data[this.options.contentKey]), nodeWidth, nodeHeight);
     group.add(object);
-    group.on('mouseover', function () {
-      highlightToPath(this.node, 3);
-    });
-    group.on('mouseout', function () {
-      highlightToPath(this.node, 1);
-    });
+    if (highlightOnHover) {
+      group.on('mouseover', function () {
+        highlightToPath(this.node, 3);
+      });
+      group.on('mouseout', function () {
+        highlightToPath(this.node, 1);
+      });
+    }
     mainGroup.add(group);
 
     node.children?.forEach((child: any) => {

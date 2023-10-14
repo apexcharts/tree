@@ -8,10 +8,6 @@
 </head>
 <body>
   <div id="svg-tree"></div>
-  <button id="layoutTop">Top</button>
-  <button id="layoutLeft">Left</button>
-  <button id="layoutRight">Right</button>
-  <button id="layoutBottom">Bottom</button>
   <script>
     const data = {
       "id": "A",
@@ -40,8 +36,8 @@
           "name": "AB",
           "children": [
             {
-              "id": "randomtext",
-              "name": "Long text"
+              "id": "ABA",
+              "name": "ABA"
             },
             {
               "id": "ABB",
@@ -85,31 +81,17 @@
     };
     const options = {
       idKey: 'id',
-      contentKey: 'name',
-      width: 700,
-      height: 700,
-      nodeWidth: 150,
-      nodeHeight: 100,
-      childrenSpacing: 150,
-      siblingSpacing: 50,
+      width: 800,
+      height: 800,
+      nodeWidth: 50,
+      nodeHeight: 30,
+      childrenSpacing: 50,
+      siblingSpacing: 20,
       direction: 'top',
       highlightOnHover: true,
     }
     const tree = new apexcharts.ApexTree(document.getElementById('svg-tree'), options);
-    const graph = tree.render(data);
-    document.getElementById('layoutTop').addEventListener('click', (e) => {
-      graph.changeLayout('top');
-    });
-    document.getElementById('layoutBottom').addEventListener('click', (e) => {
-      graph.changeLayout('bottom');
-    });
-
-    document.getElementById('layoutLeft').addEventListener('click', (e) => {
-      graph.changeLayout('left');
-    });
-    document.getElementById('layoutRight').addEventListener('click', (e) => {
-      graph.changeLayout('right');
-    });
+    tree.render(data);
   </script>
 </body>
 </html>
