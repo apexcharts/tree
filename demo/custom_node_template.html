@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../dist/ApexTree.js"></script>
+</head>
+<body>
+  <div id="svg-tree"></div>
+  <script>
+    const avatarURL = "https://i.pravatar.cc/300";
+    const data = {
+      "id": "ms",
+      "data": {
+        "imageURL": avatarURL,
+        "name": "Margret Swanson",
+      },
+      "children": [
+        {
+          "id": "mh",
+          "data": {
+            "imageURL": avatarURL,
+            "name": "Mark Hudson",
+          },
+          "children": [
+            {
+              "id": "kb",
+              "data": {
+                "imageURL": avatarURL,
+                "name": "Karyn Borbas"
+              },
+            },
+            {
+              "id": "cr",
+              "data": {
+                "imageURL": avatarURL,
+                "name": "Chris Rup"
+              },
+            }
+          ]
+        },
+        {
+          "id": "cs",
+          "data": {
+            "imageURL": avatarURL,
+            "name": "Chris Lysek",
+          },
+          "children": [
+            {
+              "id": "ABA",
+              "data": {
+                "imageURL": avatarURL,
+                "name": "ABA"
+              },
+            },
+            {
+              "id": "ABB",
+              "data": {
+                "imageURL": avatarURL,
+                "name": "ABB"
+              },
+            }
+          ]
+        },
+      ]
+    };
+    const options = {
+      idKey: 'id',
+      contentKey: 'data',
+      width: 800,
+      height: 800,
+      nodeWidth: 150,
+      nodeHeight: 100,
+      childrenSpacing: 50,
+      siblingSpacing: 20,
+      direction: 'top',
+      nodeTemplate: (content) =>
+        `<div style='display: flex;flex-direction: column;gap: 10px;justify-content: center;align-items: center;height: 100%;'>
+          <image style='width: 50px;height: 50px;border-radius: 50%;' src='${content.imageURL}'>
+          <div>${content.name}</div>
+         </div>`,
+    }
+    const tree = new apexcharts.ApexTree(document.getElementById('svg-tree'), options);
+    tree.render(data);
+  </script>
+</body>
+</html>
