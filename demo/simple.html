@@ -12,6 +12,7 @@
   <button id="layoutLeft">Left</button>
   <button id="layoutRight">Right</button>
   <button id="layoutBottom">Bottom</button>
+  <button id="fitScreen">Fit Screen</button>
   <script>
     const data = {
       "id": "A",
@@ -109,6 +110,10 @@
     });
     document.getElementById('layoutRight').addEventListener('click', (e) => {
       graph.changeLayout('right');
+    });
+
+    document.getElementById('fitScreen').addEventListener('click', (e) => {
+      graph.fitScreen();
     });
   </script>
 </body>

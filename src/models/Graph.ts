@@ -147,6 +147,21 @@ export class Graph {
     this.render();
   }
 
+  public fitScreen() {
+    const {width, height, nodeWidth, nodeHeight} = this.options;
+    const {containerX, containerY} = this.directionConfig;
+    const root = this.paper.svg.findOne('#root') as any;
+    const rootWidth = root?.width() + 100;
+    const rootHeight = root?.height() + 100;
+    const wScale = width / rootWidth;
+    const hScale = height / rootHeight;
+    const rootX = containerX({width, height, nodeWidth, nodeHeight});
+    const rootY = containerY({width, height, nodeWidth, nodeHeight});
+    root.attr({
+      transform: `translate(${rootX}, ${rootY}) scale(${Math.min(wScale, hScale)})`,
+    });
+  }
+
   public render(): void {
     this.clear();
     const {containerX, containerY} = this.directionConfig;
@@ -156,6 +171,7 @@ export class Graph {
       containerY({width, height, nodeWidth, nodeHeight}),
       'root',
     );
+    mainGroup.id('root');
     this.renderNode(this.rootNode, mainGroup);
 
     const nodes = this.rootNode.descendants().slice(1);

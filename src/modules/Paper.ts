@@ -4,7 +4,7 @@ import '@svgdotjs/svg.panzoom.js';
 export class Paper {
   private width: number;
   private height: number;
-  private svg: Svg;
+  public svg: Svg;
   constructor(element: Dom, width: number, height: number) {
     this.width = width;
     this.height = height;
