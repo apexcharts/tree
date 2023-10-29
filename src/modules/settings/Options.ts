@@ -33,7 +33,7 @@ export const DefaultOptions: TreeOptions = {
   siblingSpacing: 50,
   childrenSpacing: 50,
   direction: 'top',
-  highlightOnHover: false,
+  highlightOnHover: true,
   containerClassName: 'root',
 };
 
