@@ -17,6 +17,7 @@ export interface TreeOptions {
   readonly childrenSpacing: number;
   readonly nodeTemplate: (content: any) => any;
   readonly highlightOnHover: boolean;
+  readonly containerClassName: string;
 }
 
 export const DefaultOptions: TreeOptions = {
@@ -33,6 +34,7 @@ export const DefaultOptions: TreeOptions = {
   childrenSpacing: 50,
   direction: 'top',
   highlightOnHover: false,
+  containerClassName: 'root',
 };
 
 export interface DirectionConfigProperties {

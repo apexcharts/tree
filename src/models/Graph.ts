@@ -148,30 +148,31 @@ export class Graph {
   }
 
   public fitScreen() {
-    const {width, height, nodeWidth, nodeHeight} = this.options;
+    const {width, height, nodeWidth, nodeHeight, containerClassName} = this.options;
     const {containerX, containerY} = this.directionConfig;
-    const root = this.paper.svg.findOne('#root') as any;
-    const rootWidth = root?.width() + 100;
-    const rootHeight = root?.height() + 100;
-    const wScale = width / rootWidth;
-    const hScale = height / rootHeight;
+    const root = this.paper.get(`#${containerClassName}`);
+    const rootWidth = root?.width() as number;
+    const rootHeight = root?.height() as number;
+    const wScale = width / (rootWidth + 100);
+    const hScale = height / (rootHeight + 100);
     const rootX = containerX({width, height, nodeWidth, nodeHeight});
     const rootY = containerY({width, height, nodeWidth, nodeHeight});
     root.attr({
       transform: `translate(${rootX}, ${rootY}) scale(${Math.min(wScale, hScale)})`,
     });
+    this.paper.resetViewBox();
   }
 
   public render(): void {
     this.clear();
     const {containerX, containerY} = this.directionConfig;
-    const {width, height, nodeWidth, nodeHeight} = this.options;
+    const {width, height, nodeWidth, nodeHeight, containerClassName} = this.options;
     const mainGroup = Paper.drawGroup(
       containerX({width, height, nodeWidth, nodeHeight}),
       containerY({width, height, nodeWidth, nodeHeight}),
-      'root',
+      containerClassName,
     );
-    mainGroup.id('root');
+    mainGroup.id(containerClassName);
     this.renderNode(this.rootNode, mainGroup);
 
     const nodes = this.rootNode.descendants().slice(1);
@@ -180,5 +181,6 @@ export class Graph {
       this.renderEdge(node, mainGroup);
     });
     this.paper.add(mainGroup);
+    this.fitScreen();
   }
 }

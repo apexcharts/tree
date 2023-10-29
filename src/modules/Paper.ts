@@ -4,7 +4,7 @@ import '@svgdotjs/svg.panzoom.js';
 export class Paper {
   private width: number;
   private height: number;
-  public svg: Svg;
+  private svg: Svg;
   constructor(element: Dom, width: number, height: number) {
     this.width = width;
     this.height = height;
@@ -13,6 +13,14 @@ export class Paper {
 
   public add(element: Element) {
     this.svg.add(element);
+  }
+
+  public resetViewBox(): void {
+    this.svg.viewbox(`0 0 ${this.width} ${this.height}`);
+  }
+
+  public get(selector: string): Element {
+    return this.svg.findOne(selector) as any;
   }
 
   public clear() {
