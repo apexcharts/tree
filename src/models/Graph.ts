@@ -58,28 +58,41 @@ export class Graph {
   }
 
   public renderNode(node: any, mainGroup: G) {
-    const {nodeWidth, nodeHeight, nodeBorderRadius, nodeTemplate, highlightOnHover} = this.options;
+    const {
+      nodeWidth,
+      nodeHeight,
+      nodeBorderRadius,
+      nodeTemplate,
+      nodeBGColor,
+      highlightOnHover,
+      borderColor,
+      borderColorHover,
+    } = this.options;
     const {x, y} = this.directionConfig.swap(node);
     // const {x, y} = node;
     const group = Paper.drawGroup(x, y, node.data.id, node.parent?.data.id);
     const rect = Paper.drawRect({
       width: nodeWidth,
       height: nodeHeight,
-      strokeColor: '#b00',
+      strokeColor: borderColor,
       radius: nodeBorderRadius,
       id: node.data.name,
     });
     group.add(rect);
 
-    // const text = Paper.drawText(node.data[this.options.contentKey], {dx: nodeWidth / 2, dy: nodeHeight / 1.5});
-    const object = Paper.drawTemplate(nodeTemplate(node.data[this.options.contentKey]), nodeWidth, nodeHeight);
+    const object = Paper.drawTemplate(nodeTemplate(node.data[this.options.contentKey]), {
+      nodeWidth,
+      nodeHeight,
+      nodeBGColor,
+      nodeBorderRadius,
+    });
     group.add(object);
     if (highlightOnHover) {
       group.on('mouseover', function () {
-        highlightToPath(this.node, 3);
+        highlightToPath(this.node, {strokeWidth: 3, strokeColor: borderColorHover});
       });
       group.on('mouseout', function () {
-        highlightToPath(this.node, 1);
+        highlightToPath(this.node, {strokeWidth: 1, strokeColor: borderColor});
       });
     }
     mainGroup.add(group);
@@ -115,7 +128,7 @@ export class Graph {
   public renderEdge(node: TreeNode<Node>, group: G) {
     const edge = this.getEdge(node);
     if (!edge) return;
-    const path = Paper.drawPath(edge, `${node.data.id}-${node.parent?.data.id}`);
+    const path = Paper.drawPath(edge, {id: `${node.data.id}-${node.parent?.data.id}`});
     group.add(path);
   }
 

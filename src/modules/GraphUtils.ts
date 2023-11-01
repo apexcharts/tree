@@ -1,4 +1,5 @@
 import {GraphPoint} from 'src/models';
+import {DefaultOptions} from 'src/modules/settings/Options';
 
 /* Horizontal diagonal generation algorithm - https://observablehq.com/@bumbeishvili/curved-edges-compact-horizontal */
 export const curvedEdgesHorizontal = (s: GraphPoint, t: GraphPoint, m: GraphPoint): string => {
@@ -83,12 +84,18 @@ export const curvedEdgesVertical = (s: GraphPoint, t: GraphPoint, m: GraphPoint,
   return pathArray.join(' ');
 };
 
-export const highlightToPath = (node: HTMLElement, strokeWidth = 1): void => {
+export const highlightToPath = (
+  node: HTMLElement,
+  {strokeWidth = 1, strokeColor = DefaultOptions.borderColorHover},
+): void => {
   const self = node.getAttribute('data-self');
   const parent = node.getAttribute('data-parent');
   document.querySelector(`[data-self=${self}] rect`)?.setAttribute('stroke-width', strokeWidth.toString());
+  document.querySelector(`[data-self=${self}] rect`)?.setAttribute('stroke', strokeColor);
   const parentElement: HTMLElement | null = document.querySelector(`[data-self="${parent}"]`);
   parentElement?.querySelector('rect')?.setAttribute('stroke-width', strokeWidth.toString());
+  parentElement?.querySelector('rect')?.setAttribute('stroke', strokeColor);
   document.getElementById(`${self}-${parent}`)?.setAttribute('stroke-width', strokeWidth.toString());
-  parentElement && highlightToPath(parentElement, strokeWidth);
+  document.getElementById(`${self}-${parent}`)?.setAttribute('stroke', strokeColor);
+  parentElement && highlightToPath(parentElement, {strokeWidth, strokeColor});
 };

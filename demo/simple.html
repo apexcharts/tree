@@ -89,11 +89,12 @@
       contentKey: 'name',
       width: 700,
       height: 700,
-      nodeWidth: 150,
-      nodeHeight: 100,
-      childrenSpacing: 150,
-      siblingSpacing: 50,
+      nodeWidth: 120,
+      nodeHeight: 80,
+      childrenSpacing: 100,
+      siblingSpacing: 30,
       direction: 'top',
+      nodeBGColor: '#BAC0EC'
     }
     const tree = new apexcharts.ApexTree(document.getElementById('svg-tree'), options);
     const graph = tree.render(data);

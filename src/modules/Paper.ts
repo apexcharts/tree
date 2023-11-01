@@ -1,5 +1,6 @@
 import {Dom, Element, ForeignObject, G, Path, Rect, Svg, SVG, Text, TextAttr} from '@svgdotjs/svg.js';
 import '@svgdotjs/svg.panzoom.js';
+import {DefaultOptions, NodeOptions} from 'src/modules/settings/Options';
 
 export class Paper {
   private width: number;
@@ -36,7 +37,7 @@ export class Paper {
     color = '#fefefe',
     opacity = 1,
     strokeWidth = 1,
-    strokeColor = '#000',
+    strokeColor = DefaultOptions.borderColor,
     strokeDashArray = 0,
     id = '',
   } = {}): Rect {
@@ -77,8 +78,20 @@ export class Paper {
     return textSvg;
   }
 
-  static drawTemplate(template: any, width: number, height: number): any {
-    const object = new ForeignObject({width, height});
+  static drawTemplate(
+    template: any,
+    {
+      nodeWidth,
+      nodeHeight,
+      nodeBGColor = DefaultOptions.nodeBGColor,
+      nodeBorderRadius = DefaultOptions.nodeBorderRadius,
+    }: Partial<NodeOptions> = {},
+  ): any {
+    const object = new ForeignObject({
+      width: nodeWidth,
+      height: nodeHeight,
+      style: `background-color: ${nodeBGColor}; border-radius: ${nodeBorderRadius}px`,
+    });
     object.add(template);
     return object;
   }
@@ -89,10 +102,10 @@ export class Paper {
     return group;
   }
 
-  static drawPath(pathString: string, id: string) {
+  static drawPath(pathString: string, {id = '', borderColor = DefaultOptions.borderColor} = {}) {
     const path = new Path({d: pathString});
     path.id(id);
-    path.fill('none').stroke({color: '#8C8C8C', width: 1});
+    path.fill('none').stroke({color: borderColor, width: 1});
     return path;
   }
 }

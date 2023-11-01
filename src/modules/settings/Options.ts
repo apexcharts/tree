@@ -4,21 +4,30 @@ import {curvedEdgesHorizontal, curvedEdgesVertical} from '../GraphUtils';
 
 export type TreeDirection = 'left' | 'top' | 'right' | 'bottom';
 
-export interface TreeOptions {
+export interface NodeOptions {
+  readonly nodeWidth: number;
+  readonly nodeHeight: number;
+  readonly nodeBorderRadius: number;
+  readonly nodeBGColor: string;
+  readonly nodeBGColorHover: string;
+  readonly nodeTemplate: (content: any) => any;
+  readonly borderColor: string;
+  readonly borderColorHover: string;
+}
+
+export interface CommonOptions {
   readonly width: number;
   readonly height: number;
   readonly direction: TreeDirection;
   readonly idKey: string;
   readonly contentKey: string;
-  readonly nodeWidth: number;
-  readonly nodeHeight: number;
-  readonly nodeBorderRadius: number;
   readonly siblingSpacing: number;
   readonly childrenSpacing: number;
-  readonly nodeTemplate: (content: any) => any;
   readonly highlightOnHover: boolean;
   readonly containerClassName: string;
 }
+
+export type TreeOptions = CommonOptions & NodeOptions;
 
 export const DefaultOptions: TreeOptions = {
   width: 400,
@@ -27,9 +36,14 @@ export const DefaultOptions: TreeOptions = {
   contentKey: 'name',
   nodeWidth: 50,
   nodeHeight: 30,
-  nodeTemplate: (content: string) =>
-    `<div style='display: flex;justify-content: center;align-items: center;height: 100%;'>${content}</div>`,
+  nodeTemplate: (content: string) => {
+    return `<div style='display: flex;justify-content: center;align-items: center;height: 100%;'>${content}</div>`;
+  },
   nodeBorderRadius: 5,
+  nodeBGColor: '#FFFFFF',
+  nodeBGColorHover: '#FFFFFF',
+  borderColor: '#BCBCBC',
+  borderColorHover: '#5C6BC0',
   siblingSpacing: 50,
   childrenSpacing: 50,
   direction: 'top',

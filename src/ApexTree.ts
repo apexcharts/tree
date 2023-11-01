@@ -19,7 +19,7 @@ export class ApexTree {
       throw new Error('Element not found');
     }
     this.graph.construct(data);
-    console.log('graph', this.graph);
+    console.log('graph', this.graph, this.options);
     this.graph.render();
     return this.graph;
   }
