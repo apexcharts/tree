@@ -64,6 +64,7 @@ export class Graph {
       nodeBorderRadius,
       nodeTemplate,
       nodeBGColor,
+      nodeBGColorHover,
       highlightOnHover,
       borderColor,
       borderColorHover,
@@ -89,10 +90,10 @@ export class Graph {
     group.add(object);
     if (highlightOnHover) {
       group.on('mouseover', function () {
-        highlightToPath(this.node, {strokeWidth: 3, strokeColor: borderColorHover});
+        highlightToPath(this.node, {strokeWidth: 3, strokeColor: borderColorHover, nodeBGColor: nodeBGColorHover});
       });
       group.on('mouseout', function () {
-        highlightToPath(this.node, {strokeWidth: 1, strokeColor: borderColor});
+        highlightToPath(this.node, {strokeWidth: 1, strokeColor: borderColor, nodeBGColor});
       });
     }
     mainGroup.add(group);

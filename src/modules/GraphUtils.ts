@@ -84,18 +84,35 @@ export const curvedEdgesVertical = (s: GraphPoint, t: GraphPoint, m: GraphPoint,
   return pathArray.join(' ');
 };
 
+export const setAttributes = (element: Element | null, attrs: Record<string, any> = {}) => {
+  for (const key in attrs) {
+    element?.setAttribute(key, attrs[key]);
+  }
+};
+
 export const highlightToPath = (
   node: HTMLElement,
-  {strokeWidth = 1, strokeColor = DefaultOptions.borderColorHover},
+  {
+    strokeWidth = 1,
+    strokeColor = DefaultOptions.borderColorHover,
+    nodeBGColor = DefaultOptions.nodeBGColor,
+    nodeBorderRadius = DefaultOptions.nodeBorderRadius,
+  },
 ): void => {
   const self = node.getAttribute('data-self');
   const parent = node.getAttribute('data-parent');
-  document.querySelector(`[data-self=${self}] rect`)?.setAttribute('stroke-width', strokeWidth.toString());
-  document.querySelector(`[data-self=${self}] rect`)?.setAttribute('stroke', strokeColor);
+  const selfElement: HTMLElement | null = document.querySelector(`[data-self=${self}] rect`);
+  setAttributes(selfElement, {'stroke-width': strokeWidth.toString(), stroke: strokeColor});
+
+  const selfContentElement: HTMLElement | null = document.querySelector(`[data-self=${self}] foreignObject`);
+  selfContentElement?.setAttribute('style', `background-color: ${nodeBGColor}; border-radius: ${nodeBorderRadius}px`);
+
   const parentElement: HTMLElement | null = document.querySelector(`[data-self="${parent}"]`);
-  parentElement?.querySelector('rect')?.setAttribute('stroke-width', strokeWidth.toString());
-  parentElement?.querySelector('rect')?.setAttribute('stroke', strokeColor);
-  document.getElementById(`${self}-${parent}`)?.setAttribute('stroke-width', strokeWidth.toString());
-  document.getElementById(`${self}-${parent}`)?.setAttribute('stroke', strokeColor);
-  parentElement && highlightToPath(parentElement, {strokeWidth, strokeColor});
+  setAttributes(parentElement?.querySelector('rect') || null, {
+    'stroke-width': strokeWidth.toString(),
+    stroke: strokeColor,
+  });
+  const edge = document.getElementById(`${self}-${parent}`);
+  setAttributes(edge, {'stroke-width': strokeWidth.toString(), stroke: strokeColor});
+  parentElement && highlightToPath(parentElement, {strokeWidth, strokeColor, nodeBGColor});
 };
