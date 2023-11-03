@@ -102,7 +102,7 @@ export const highlightToPath = (
   const self = node.getAttribute('data-self');
   const parent = node.getAttribute('data-parent');
 
-  const selfContentElement: HTMLElement | null = document.querySelector(`[data-self=${self}] foreignObject`);
+  const selfContentElement: HTMLElement | null = document.querySelector(`[data-self='${self}'] foreignObject`);
   const borderStyles = [
     `background-color: ${nodeBGColor};`,
     `border-radius: ${nodeBorderRadius}px;`,

@@ -165,17 +165,32 @@ export class Graph {
 
   public fitScreen() {
     const {width, height, nodeWidth, nodeHeight, containerClassName} = this.options;
-    const {containerX, containerY} = this.directionConfig;
+    const {containerXFromGraphSize, containerYFromGraphSize} = this.directionConfig;
     const root = this.paper.get(`#${containerClassName}`);
     const rootWidth = root?.width() as number;
     const rootHeight = root?.height() as number;
-    const wScale = width / (rootWidth + 100);
-    const hScale = height / (rootHeight + 100);
-    const rootX = containerX({width, height, nodeWidth, nodeHeight});
-    const rootY = containerY({width, height, nodeWidth, nodeHeight});
-    root.attr({
-      transform: `translate(${rootX}, ${rootY}) scale(${Math.min(wScale, hScale)})`,
+    const lowestScale = Math.min(width / (rootWidth + 100), height / (rootHeight + 100));
+    const scaledNodeWidth = nodeWidth * lowestScale;
+    const scaledNodeHeight = nodeHeight * lowestScale;
+    const containerWidth = rootWidth * lowestScale;
+    const containerHeight = rootHeight * lowestScale;
+    const rootX = containerXFromGraphSize({
+      width,
+      height,
+      nodeWidth: scaledNodeWidth,
+      nodeHeight: scaledNodeHeight,
+      containerWidth,
+      containerHeight,
     });
+    const rootY = containerYFromGraphSize({
+      width,
+      height,
+      nodeWidth: scaledNodeWidth,
+      nodeHeight: scaledNodeHeight,
+      containerWidth,
+      containerHeight,
+    });
+    root.attr({transform: `translate(${rootX}, ${rootY}) scale(${lowestScale})`});
     this.paper.resetViewBox();
   }
 

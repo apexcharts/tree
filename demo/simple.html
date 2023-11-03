@@ -7,7 +7,7 @@
   <script src="../dist/ApexTree.js"></script>
 </head>
 <body>
-  <div id="svg-tree"></div>
+  <div id="svg-tree" style='display: flex;align-items: center;justify-content: center;'></div>
   <button id="layoutTop">Top</button>
   <button id="layoutLeft">Left</button>
   <button id="layoutRight">Right</button>
@@ -15,71 +15,97 @@
   <button id="fitScreen">Fit Screen</button>
   <script>
     const data = {
-      "id": "A",
+      "id": "1",
       "name": "A",
       "children": [
         {
-          "id": "AA",
+          "id": "2",
           "name": "AA",
           "children": [
             {
-              "id": "AAA",
+              "id": "3",
               "name": "AAA"
             },
             {
-              "id": "AAB",
+              "id": "4",
               "name": "AAB"
             },
             {
-              "id": "AAC",
+              "id": "5",
               "name": "AAC"
             }
           ]
         },
         {
-          "id": "AB",
+          "id": "6",
           "name": "AB",
           "children": [
             {
-              "id": "randomtext",
+              "id": "7",
               "name": "Long text"
             },
             {
-              "id": "ABB",
+              "id": "8",
               "name": "ABB"
             }
           ]
         },
         {
-          "id": "AC",
+          "id": "9",
           "name": "AC",
           "children": [
             {
-              "id": "ACA",
+              "id": "10",
               "name": "ACA"
             },
             {
-              "id": "ACB",
-              "name": "ACB"
-            },
-            {
-              "id": "ACC",
-              "name": "ACC"
+              "id": "11",
+              "name": "ACB",
+              "children": [
+                {
+                  "id": "12",
+                  "name": "AD",
+                  "children": [
+                    {
+                      "id": "13",
+                      "name": "ADA"
+                    }
+                  ]
+                },
+                {
+                  "id": "14",
+                  "name": "AE"
+                }
+              ]
             }
           ]
         },
         {
-          "id": "AD",
+          "id": "15",
           "name": "AD",
           "children": [
             {
-              "id": "ADA",
+              "id": "16",
               "name": "ADA"
-            }
+            },
+            {
+              "id": "17",
+              "name": "AB",
+              "children": [
+                {
+                  "id": "18",
+                  "name": "Long text"
+                },
+                {
+                  "id": "19",
+                  "name": "ABB"
+                }
+              ]
+            },
           ]
         },
         {
-          "id": "AE",
+          "id": "20",
           "name": "AE"
         }
       ]

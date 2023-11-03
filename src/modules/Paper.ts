@@ -9,7 +9,12 @@ export class Paper {
   constructor(element: Dom, width: number, height: number) {
     this.width = width;
     this.height = height;
-    this.svg = SVG().addTo(element).size(width, height).viewbox(`0 0 ${width} ${height}`).panZoom();
+    this.svg = SVG()
+      .addTo(element)
+      .size(width, height)
+      .viewbox(`0 0 ${width} ${height}`)
+      .panZoom()
+      .attr({style: 'border: 1px solid black;'});
   }
 
   public add(element: Element) {

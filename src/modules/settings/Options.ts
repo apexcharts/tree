@@ -56,6 +56,8 @@ export const DefaultOptions: TreeOptions = {
 export interface DirectionConfigProperties {
   readonly containerX: (params: Partial<ConfigParams>) => number;
   readonly containerY: (params: Partial<ConfigParams>) => number;
+  readonly containerXFromGraphSize: (params: Partial<ConfigParams>) => number;
+  readonly containerYFromGraphSize: (params: Partial<ConfigParams>) => number;
   readonly edgeX: (params: Partial<ConfigParams>) => number;
   readonly edgeY: (params: Partial<ConfigParams>) => number;
   readonly edgeMidX: (params: Partial<ConfigParams>) => number;
@@ -75,6 +77,8 @@ interface ConfigParams {
   readonly height: number;
   readonly nodeWidth: number;
   readonly nodeHeight: number;
+  readonly containerWidth: number;
+  readonly containerHeight: number;
   readonly siblingsMargin: number;
   readonly childrenMargin: number;
   readonly x: number;
@@ -85,6 +89,9 @@ export const DirectionConfig: Record<string, DirectionConfigProperties> = {
   top: {
     containerX: ({width}: ConfigParams) => width / 2,
     containerY: () => 10,
+    containerXFromGraphSize: ({width, containerWidth}: ConfigParams) =>
+      (width - containerWidth) / 2 + containerWidth / 2,
+    containerYFromGraphSize: () => 10,
     edgeX: ({node, nodeWidth}: ConfigParams) => node.x + nodeWidth / 2,
     edgeY: ({node}: ConfigParams) => node.y,
     edgeMidX: ({node, nodeWidth}: ConfigParams) => node.x + nodeWidth / 2,
@@ -101,6 +108,9 @@ export const DirectionConfig: Record<string, DirectionConfigProperties> = {
   bottom: {
     containerX: ({width}: ConfigParams) => width / 2,
     containerY: ({height, nodeHeight}: ConfigParams) => height - nodeHeight - 10,
+    containerXFromGraphSize: ({width, containerWidth}: ConfigParams) =>
+      (width - containerWidth) / 2 + containerWidth / 2,
+    containerYFromGraphSize: ({nodeHeight, containerHeight}: ConfigParams) => containerHeight - nodeHeight + 10,
     edgeX: ({node, nodeWidth}: ConfigParams) => node.x + nodeWidth / 2,
     edgeY: ({node, nodeHeight}: ConfigParams) => node.y + nodeHeight,
     edgeMidX: ({node, nodeWidth}: ConfigParams) => node.x + nodeWidth / 2,
@@ -121,6 +131,8 @@ export const DirectionConfig: Record<string, DirectionConfigProperties> = {
   left: {
     containerX: () => 10,
     containerY: ({height}: ConfigParams) => height / 2,
+    containerXFromGraphSize: ({width, containerWidth}: ConfigParams) => (width - containerWidth) / 2,
+    containerYFromGraphSize: ({height}: ConfigParams) => height / 2,
     edgeX: ({node}: ConfigParams) => node.x,
     edgeY: ({node, nodeHeight}: ConfigParams) => node.y + nodeHeight / 2,
     edgeMidX: ({node}: ConfigParams) => node.x,
@@ -142,6 +154,9 @@ export const DirectionConfig: Record<string, DirectionConfigProperties> = {
   right: {
     containerX: ({width, nodeWidth}: ConfigParams) => width - nodeWidth - 10,
     containerY: ({height}: ConfigParams) => height / 2,
+    containerXFromGraphSize: ({width, containerWidth, nodeWidth}: ConfigParams) =>
+      (width - containerWidth) / 2 + containerWidth - nodeWidth,
+    containerYFromGraphSize: ({height}: ConfigParams) => height / 2,
     edgeX: ({node, nodeWidth}: ConfigParams) => node.x + nodeWidth,
     edgeY: ({node, nodeHeight}: ConfigParams) => node.y + nodeHeight / 2,
     edgeMidX: ({node, nodeWidth}: ConfigParams) => node.x + nodeWidth,
