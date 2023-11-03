@@ -13,9 +13,9 @@ export const commonConfig: CommonConfig = {
     clean: true,
     filename: 'ApexTree.js',
     path: path.resolve(__dirname, 'dist'),
-    library: 'apexcharts',
+    library: 'ApexTree',
     libraryTarget: 'umd',
-    umdNamedDefine: false,
+    libraryExport: 'ApexTree',
   },
   module: {
     rules: [
@@ -53,7 +53,8 @@ export const commonConfig: CommonConfig = {
           },
         ],
       },
-    ]
+      { test: /\.(less)$/, loader: "asset/resource" }
+    ],
   },
   resolve: {
     modules: [__dirname, 'src', 'node_modules'],
