@@ -66,6 +66,7 @@ export class Graph {
       nodeBGColor,
       nodeBGColorHover,
       highlightOnHover,
+      borderSize,
       borderColor,
       borderColorHover,
     } = this.options;
@@ -75,7 +76,6 @@ export class Graph {
     const rect = Paper.drawRect({
       width: nodeWidth,
       height: nodeHeight,
-      strokeColor: borderColor,
       radius: nodeBorderRadius,
       id: node.data.name,
     });
@@ -86,14 +86,16 @@ export class Graph {
       nodeHeight,
       nodeBGColor,
       nodeBorderRadius,
+      borderColor,
+      borderSize,
     });
     group.add(object);
     if (highlightOnHover) {
       group.on('mouseover', function () {
-        highlightToPath(this.node, {strokeWidth: 3, strokeColor: borderColorHover, nodeBGColor: nodeBGColorHover});
+        highlightToPath(this.node, {borderSize: 2, borderColor: borderColorHover, nodeBGColor: nodeBGColorHover});
       });
       group.on('mouseout', function () {
-        highlightToPath(this.node, {strokeWidth: 1, strokeColor: borderColor, nodeBGColor});
+        highlightToPath(this.node, {borderSize: 1, borderColor: borderColor, nodeBGColor});
       });
     }
     mainGroup.add(group);

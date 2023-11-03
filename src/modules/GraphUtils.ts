@@ -93,26 +93,28 @@ export const setAttributes = (element: Element | null, attrs: Record<string, any
 export const highlightToPath = (
   node: HTMLElement,
   {
-    strokeWidth = 1,
-    strokeColor = DefaultOptions.borderColorHover,
+    borderSize = 1,
+    borderColor = DefaultOptions.borderColorHover,
     nodeBGColor = DefaultOptions.nodeBGColor,
     nodeBorderRadius = DefaultOptions.nodeBorderRadius,
   },
 ): void => {
   const self = node.getAttribute('data-self');
   const parent = node.getAttribute('data-parent');
-  const selfElement: HTMLElement | null = document.querySelector(`[data-self=${self}] rect`);
-  setAttributes(selfElement, {'stroke-width': strokeWidth.toString(), stroke: strokeColor});
 
   const selfContentElement: HTMLElement | null = document.querySelector(`[data-self=${self}] foreignObject`);
-  selfContentElement?.setAttribute('style', `background-color: ${nodeBGColor}; border-radius: ${nodeBorderRadius}px`);
+  const borderStyles = [
+    `background-color: ${nodeBGColor};`,
+    `border-radius: ${nodeBorderRadius}px;`,
+    `border: ${borderSize}px solid ${borderColor}`,
+  ];
+  setAttributes(selfContentElement, {
+    style: borderStyles.join(' '),
+  });
+
+  const edge = document.getElementById(`${self}-${parent}`);
+  setAttributes(edge, {'stroke-width': borderSize.toString(), stroke: borderColor});
 
   const parentElement: HTMLElement | null = document.querySelector(`[data-self="${parent}"]`);
-  setAttributes(parentElement?.querySelector('rect') || null, {
-    'stroke-width': strokeWidth.toString(),
-    stroke: strokeColor,
-  });
-  const edge = document.getElementById(`${self}-${parent}`);
-  setAttributes(edge, {'stroke-width': strokeWidth.toString(), stroke: strokeColor});
-  parentElement && highlightToPath(parentElement, {strokeWidth, strokeColor, nodeBGColor});
+  parentElement && highlightToPath(parentElement, {borderSize, borderColor, nodeBGColor});
 };

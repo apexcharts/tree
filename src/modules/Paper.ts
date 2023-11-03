@@ -36,9 +36,6 @@ export class Paper {
     radius = 0,
     color = '#fefefe',
     opacity = 1,
-    strokeWidth = 1,
-    strokeColor = DefaultOptions.borderColor,
-    strokeDashArray = 0,
     id = '',
   } = {}): Rect {
     const rect = new Rect();
@@ -50,9 +47,6 @@ export class Paper {
       rx: radius,
       ry: radius,
       opacity,
-      'stroke-width': strokeWidth !== null ? strokeWidth : 0,
-      stroke: strokeColor !== null ? strokeColor : 'none',
-      'stroke-dasharray': strokeDashArray,
     });
     rect.id(id);
     rect.fill(color);
@@ -83,14 +77,21 @@ export class Paper {
     {
       nodeWidth,
       nodeHeight,
+      borderColor,
+      borderSize,
       nodeBGColor = DefaultOptions.nodeBGColor,
       nodeBorderRadius = DefaultOptions.nodeBorderRadius,
     }: Partial<NodeOptions> = {},
   ): any {
+    const styles = [
+      `background-color: ${nodeBGColor};`,
+      `border-radius: ${nodeBorderRadius}px;`,
+      `border: ${borderSize}px solid ${borderColor}`,
+    ];
     const object = new ForeignObject({
       width: nodeWidth,
       height: nodeHeight,
-      style: `background-color: ${nodeBGColor}; border-radius: ${nodeBorderRadius}px`,
+      style: styles.join(' '),
     });
     object.add(template);
     return object;
