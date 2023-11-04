@@ -74,7 +74,7 @@
               "children": [
                 {
                   "id": "18",
-                  "name": "Long text Long text Long text Long text Long text Long text Long text Long text Long text Long text"
+                  "name": "Long text Long text Long text Long text Long text Long text Long text text Long text"
                 },
                 {
                   "id": "19",
@@ -152,10 +152,8 @@
       childrenSpacing: 100,
       siblingSpacing: 30,
       direction: 'top',
-      tooltip: {
-        enable: true,
-        id: 'tooltip'
-      }
+      enableTooltip: true,
+      tooltipId: 'tooltip'
     }
     const tree = new ApexTree(document.getElementById('svg-tree'), options);
     const graph = tree.render(data);

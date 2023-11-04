@@ -45,7 +45,6 @@ export class Paper {
     radius = 0,
     color = '#fefefe',
     opacity = 1,
-    id = '',
   } = {}): Rect {
     const rect = new Rect();
     rect.attr({
@@ -57,7 +56,6 @@ export class Paper {
       ry: radius,
       opacity,
     });
-    rect.id(id);
     rect.fill(color);
     return rect;
   }

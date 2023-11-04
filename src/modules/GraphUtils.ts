@@ -115,7 +115,7 @@ export const highlightToPath = (
   parentElement && highlightToPath(parentElement, {borderSize, borderColor, nodeBGColor});
 };
 
-export const updateTooltip = (id: string, styles?: string | undefined, content: string = '') => {
+export const updateTooltip = (id: string = '', styles?: string | undefined, content: string = '') => {
   const tooltipElement = document.getElementById(id);
   if (styles) {
     tooltipElement?.setAttribute('style', styles);

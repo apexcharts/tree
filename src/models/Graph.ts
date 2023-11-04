@@ -69,18 +69,12 @@ export class Graph {
       borderSize,
       borderColor,
       borderColorHover,
-      tooltip,
+      enableTooltip,
+      tooltipId,
     } = this.options;
     const {x, y} = this.directionConfig.swap(node);
     // const {x, y} = node;
     const group = Paper.drawGroup(x, y, node.data.id, node.parent?.data.id);
-    const rect = Paper.drawRect({
-      width: nodeWidth,
-      height: nodeHeight,
-      radius: nodeBorderRadius,
-      id: node.data.name,
-    });
-    group.add(rect);
     const nodeContent = nodeTemplate(node.data[this.options.contentKey]);
     const object = Paper.drawTemplate(nodeContent, {
       nodeWidth,
@@ -100,20 +94,16 @@ export class Graph {
       });
     }
 
-    if (tooltip?.enable) {
+    if (enableTooltip) {
       group.on('mousemove', function (e: MouseEvent) {
-        if (tooltip?.enable) {
-          const styles = ['position: absolute;', `top: ${e.y + 20}px;`, `left: ${e.x + 20}px;`];
-          updateTooltip(tooltip.id, styles.join(' '), nodeContent);
-        }
+        const styles = ['position: absolute;', `top: ${e.y + 20}px;`, `left: ${e.x + 20}px;`];
+        updateTooltip(tooltipId, styles.join(' '), nodeContent);
       });
       group.on('mouseout', function () {
-        if (tooltip?.enable) {
-          updateTooltip(tooltip.id);
-        }
+        updateTooltip(tooltipId);
       });
     }
-    // group.animate().move(x, y);
+    // group.animate().attr({transform: `translate(${x}, ${y})`});
     mainGroup.add(group);
 
     node.children?.forEach((child: any) => {
@@ -148,6 +138,7 @@ export class Graph {
     const edge = this.getEdge(node);
     if (!edge) return;
     const path = Paper.drawPath(edge, {id: `${node.data.id}-${node.parent?.data.id}`});
+    // path.animate().attr({d: edge});
     group.add(path);
   }
 
@@ -193,7 +184,7 @@ export class Graph {
 
   public render(): void {
     this.clear();
-    const {containerClassName, tooltip} = this.options;
+    const {containerClassName, enableTooltip, tooltipId} = this.options;
     const mainGroup = Paper.drawGroup(0, 0, containerClassName);
     mainGroup.id(containerClassName);
     this.renderNode(this.rootNode, mainGroup);
@@ -205,8 +196,11 @@ export class Graph {
     });
     this.paper.add(mainGroup);
     this.fitScreen();
-    const tooltipElement = document.createElement('div');
-    tooltipElement.id = tooltip?.id || 'tooltip-container';
-    this.element.append(tooltipElement);
+
+    if (enableTooltip) {
+      const tooltipElement = document.getElementById(tooltipId || 'tooltip-container') || document.createElement('div');
+      tooltipElement.id = tooltipId || 'tooltip-container';
+      this.element.append(tooltipElement);
+    }
   }
 }
