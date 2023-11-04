@@ -25,6 +25,10 @@ export class Paper {
     this.svg.viewbox(`0 0 ${this.width} ${this.height}`);
   }
 
+  public updateViewBox(x: number, y: number, width: number, height: number): void {
+    this.svg.viewbox(`${x} ${y} ${width} ${height}`);
+  }
+
   public get(selector: string): Element {
     return this.svg.findOne(selector) as any;
   }

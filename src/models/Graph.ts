@@ -164,45 +164,21 @@ export class Graph {
   }
 
   public fitScreen() {
-    const {width, height, nodeWidth, nodeHeight, containerClassName} = this.options;
-    const {containerXFromGraphSize, containerYFromGraphSize} = this.directionConfig;
-    const root = this.paper.get(`#${containerClassName}`);
-    const rootWidth = root?.width() as number;
-    const rootHeight = root?.height() as number;
-    const lowestScale = Math.min(width / (rootWidth + 100), height / (rootHeight + 100));
-    const scaledNodeWidth = nodeWidth * lowestScale;
-    const scaledNodeHeight = nodeHeight * lowestScale;
-    const containerWidth = rootWidth * lowestScale;
-    const containerHeight = rootHeight * lowestScale;
-    const rootX = containerXFromGraphSize({
-      width,
-      height,
-      nodeWidth: scaledNodeWidth,
-      nodeHeight: scaledNodeHeight,
-      containerWidth,
-      containerHeight,
-    });
-    const rootY = containerYFromGraphSize({
-      width,
-      height,
-      nodeWidth: scaledNodeWidth,
-      nodeHeight: scaledNodeHeight,
-      containerWidth,
-      containerHeight,
-    });
-    root.attr({transform: `translate(${rootX}, ${rootY}) scale(${lowestScale})`});
-    this.paper.resetViewBox();
+    const {childrenSpacing, siblingSpacing} = this.options;
+    const {viewBoxDimensions} = this.directionConfig;
+    const {
+      x,
+      y,
+      width: vWidth,
+      height: vHeight,
+    } = viewBoxDimensions({rootNode: this.rootNode, childrenSpacing, siblingSpacing});
+    this.paper.updateViewBox(x, y, vWidth, vHeight);
   }
 
   public render(): void {
     this.clear();
-    const {containerX, containerY} = this.directionConfig;
-    const {width, height, nodeWidth, nodeHeight, containerClassName} = this.options;
-    const mainGroup = Paper.drawGroup(
-      containerX({width, height, nodeWidth, nodeHeight}),
-      containerY({width, height, nodeWidth, nodeHeight}),
-      containerClassName,
-    );
+    const {containerClassName} = this.options;
+    const mainGroup = Paper.drawGroup(0, 0, containerClassName);
     mainGroup.id(containerClassName);
     this.renderNode(this.rootNode, mainGroup);
 
