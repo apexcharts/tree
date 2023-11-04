@@ -83,8 +83,6 @@ interface ConfigParams {
   readonly height: number;
   readonly nodeWidth: number;
   readonly nodeHeight: number;
-  readonly containerWidth: number;
-  readonly containerHeight: number;
   readonly siblingsMargin: number;
   readonly childrenMargin: number;
   readonly x: number;
@@ -114,9 +112,8 @@ export const DirectionConfig: Record<string, DirectionConfigProperties> = {
       const width = Math.abs(left) + Math.abs(right);
       const height = Math.abs(top) + Math.abs(bottom);
       const x = Math.abs(left) + siblingSpacing / 2;
-      const y = 0;
-      console.log('viewbox', left, top, x, y, width, height);
-      return {x: -x, y, width, height};
+      const y = (rootNode.ySize - childrenSpacing) / 2;
+      return {x: -x, y: -y, width, height};
     },
   },
   bottom: {
@@ -140,9 +137,9 @@ export const DirectionConfig: Record<string, DirectionConfigProperties> = {
     viewBoxDimensions: ({rootNode, childrenSpacing, siblingSpacing}) => {
       const {left, top, right, bottom} = rootNode.extents;
       const width = Math.abs(left) + Math.abs(right);
-      const height = Math.abs(top) + Math.abs(bottom) - rootNode.ySize;
+      const height = Math.abs(top) + Math.abs(bottom);
       const x = Math.abs(left) - (rootNode.xSize - siblingSpacing) / 2;
-      const y = height - childrenSpacing / 2;
+      const y = height - rootNode.ySize + childrenSpacing / 2;
       return {x: -x, y: -y, width, height};
     },
   },
@@ -166,12 +163,12 @@ export const DirectionConfig: Record<string, DirectionConfigProperties> = {
         x: node.y,
         y: node.x,
       }) as TreeNode<Node>,
-    viewBoxDimensions: ({rootNode, siblingSpacing}) => {
+    viewBoxDimensions: ({rootNode, childrenSpacing, siblingSpacing}) => {
       const {left, top, right, bottom} = rootNode.extents;
       const width = Math.abs(top) + Math.abs(bottom);
       const height = Math.abs(left) + Math.abs(right);
       const x = siblingSpacing;
-      const y = height / 2 + siblingSpacing;
+      const y = (height + rootNode.ySize - childrenSpacing) / 2;
       return {x: -x, y: -y, width, height};
     },
   },
@@ -195,12 +192,12 @@ export const DirectionConfig: Record<string, DirectionConfigProperties> = {
         x: -node.y,
         y: node.x,
       }) as TreeNode<Node>,
-    viewBoxDimensions: ({rootNode, siblingSpacing}) => {
+    viewBoxDimensions: ({rootNode, childrenSpacing}) => {
       const {left, top, right, bottom} = rootNode.extents;
       const width = Math.abs(top) + Math.abs(bottom);
       const height = Math.abs(left) + Math.abs(right);
       const x = width - rootNode.xSize;
-      const y = height / 2 + siblingSpacing;
+      const y = (height + rootNode.ySize - childrenSpacing) / 2;
       return {x: -x, y: -y, width, height};
     },
   },

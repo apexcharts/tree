@@ -1,4 +1,4 @@
-import {Dom, Element, ForeignObject, G, Path, Rect, Svg, SVG, Text, TextAttr} from '@svgdotjs/svg.js';
+import {Dom, Element, ForeignObject, G, Path, Point, Rect, Svg, SVG, Text, TextAttr} from '@svgdotjs/svg.js';
 import '@svgdotjs/svg.panzoom.js';
 import {DefaultOptions, NodeOptions} from 'src/modules/settings/Options';
 

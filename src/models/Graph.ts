@@ -98,6 +98,7 @@ export class Graph {
         highlightToPath(this.node, {borderSize: 1, borderColor: borderColor, nodeBGColor});
       });
     }
+    // group.animate().move(x, y);
     mainGroup.add(group);
 
     node.children?.forEach((child: any) => {
