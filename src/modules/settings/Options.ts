@@ -171,7 +171,7 @@ export const DirectionConfig: Record<string, DirectionConfigProperties> = {
       const width = Math.abs(top) + Math.abs(bottom);
       const height = Math.abs(left) + Math.abs(right);
       const x = siblingSpacing;
-      const y = Math.abs(left) - 40;
+      const y = height / 2 + siblingSpacing;
       return {x: -x, y: -y, width, height};
     },
   },
@@ -200,7 +200,7 @@ export const DirectionConfig: Record<string, DirectionConfigProperties> = {
       const width = Math.abs(top) + Math.abs(bottom);
       const height = Math.abs(left) + Math.abs(right);
       const x = width - rootNode.xSize;
-      const y = Math.abs(left) - 40;
+      const y = height / 2 + siblingSpacing;
       return {x: -x, y: -y, width, height};
     },
   },
