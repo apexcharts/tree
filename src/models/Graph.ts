@@ -1,6 +1,6 @@
-import {Dom, G} from '@svgdotjs/svg.js';
+import {G} from '@svgdotjs/svg.js';
 import {flextree, FlextreeNode} from 'd3-flextree';
-import {highlightToPath} from 'src/modules/GraphUtils';
+import {highlightToPath, updateTooltip} from 'src/modules/GraphUtils';
 import {Paper} from 'src/modules/Paper';
 import {DirectionConfig, DirectionConfigProperties, TreeDirection, TreeOptions} from 'src/modules/settings/Options';
 
@@ -22,11 +22,11 @@ export interface TreeNode<Datum> extends FlextreeNode<Datum> {
 export class Graph {
   public options: TreeOptions;
   public rootNode: TreeNode<Node>;
-  public element: Dom;
+  public element: HTMLElement;
   public paper: Paper;
   private directionConfig: DirectionConfigProperties;
 
-  constructor(element: Dom, options: TreeOptions) {
+  constructor(element: HTMLElement, options: TreeOptions) {
     this.element = element;
     this.options = options;
     const {width, height} = this.options;
@@ -69,6 +69,7 @@ export class Graph {
       borderSize,
       borderColor,
       borderColorHover,
+      tooltip,
     } = this.options;
     const {x, y} = this.directionConfig.swap(node);
     // const {x, y} = node;
@@ -80,8 +81,8 @@ export class Graph {
       id: node.data.name,
     });
     group.add(rect);
-
-    const object = Paper.drawTemplate(nodeTemplate(node.data[this.options.contentKey]), {
+    const nodeContent = nodeTemplate(node.data[this.options.contentKey]);
+    const object = Paper.drawTemplate(nodeContent, {
       nodeWidth,
       nodeHeight,
       nodeBGColor,
@@ -96,6 +97,20 @@ export class Graph {
       });
       group.on('mouseout', function () {
         highlightToPath(this.node, {borderSize: 1, borderColor: borderColor, nodeBGColor});
+      });
+    }
+
+    if (tooltip?.enable) {
+      group.on('mousemove', function (e: MouseEvent) {
+        if (tooltip?.enable) {
+          const styles = ['position: absolute;', `top: ${e.y + 20}px;`, `left: ${e.x + 20}px;`];
+          updateTooltip(tooltip.id, styles.join(' '), nodeContent);
+        }
+      });
+      group.on('mouseout', function () {
+        if (tooltip?.enable) {
+          updateTooltip(tooltip.id);
+        }
       });
     }
     // group.animate().move(x, y);
@@ -178,7 +193,7 @@ export class Graph {
 
   public render(): void {
     this.clear();
-    const {containerClassName} = this.options;
+    const {containerClassName, tooltip} = this.options;
     const mainGroup = Paper.drawGroup(0, 0, containerClassName);
     mainGroup.id(containerClassName);
     this.renderNode(this.rootNode, mainGroup);
@@ -190,5 +205,8 @@ export class Graph {
     });
     this.paper.add(mainGroup);
     this.fitScreen();
+    const tooltipElement = document.createElement('div');
+    tooltipElement.id = tooltip?.id || 'tooltip-container';
+    this.element.append(tooltipElement);
   }
 }

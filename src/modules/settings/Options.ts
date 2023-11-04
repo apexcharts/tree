@@ -16,6 +16,12 @@ export interface NodeOptions {
   readonly borderColorHover: string;
 }
 
+export interface TooltipOptions {
+  readonly enable: boolean;
+  readonly id: string;
+  readonly template?: (content: any) => any;
+}
+
 export interface CommonOptions {
   readonly width: number;
   readonly height: number;
@@ -26,6 +32,7 @@ export interface CommonOptions {
   readonly childrenSpacing: number;
   readonly highlightOnHover: boolean;
   readonly containerClassName: string;
+  readonly tooltip?: TooltipOptions;
 }
 
 export type TreeOptions = CommonOptions & NodeOptions;
@@ -51,6 +58,10 @@ export const DefaultOptions: TreeOptions = {
   direction: 'top',
   highlightOnHover: true,
   containerClassName: 'root',
+  tooltip: {
+    id: 'tooltip-container',
+    enable: false,
+  },
 };
 
 export interface DirectionConfigProperties {

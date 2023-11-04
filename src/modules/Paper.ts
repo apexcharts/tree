@@ -1,4 +1,4 @@
-import {Dom, Element, ForeignObject, G, Path, Point, Rect, Svg, SVG, Text, TextAttr} from '@svgdotjs/svg.js';
+import {Element, ForeignObject, G, Path, Rect, Svg, SVG, Text, TextAttr} from '@svgdotjs/svg.js';
 import '@svgdotjs/svg.panzoom.js';
 import {DefaultOptions, NodeOptions} from 'src/modules/settings/Options';
 
@@ -6,7 +6,7 @@ export class Paper {
   private width: number;
   private height: number;
   private svg: Svg;
-  constructor(element: Dom, width: number, height: number) {
+  constructor(element: HTMLElement, width: number, height: number) {
     this.width = width;
     this.height = height;
     this.svg = SVG()
@@ -87,7 +87,7 @@ export class Paper {
       nodeWidth,
       nodeHeight,
       borderColor,
-      borderSize,
+      borderSize = 0,
       nodeBGColor = DefaultOptions.nodeBGColor,
       nodeBorderRadius = DefaultOptions.nodeBorderRadius,
     }: Partial<NodeOptions> = {},
