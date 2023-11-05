@@ -82,12 +82,12 @@ export class Graph {
     } = this.options;
     const {
       tooltipId = DefaultOptions.tooltipId,
-      tooltipWidth = DefaultOptions.tooltipWidth,
+      tooltipMaxWidth = DefaultOptions.tooltipMaxWidth,
       tooltipBGColor = DefaultOptions.tooltipBGColor,
       tooltipBorderColor = DefaultOptions.tooltipBorderColor,
     } = {...this.options, ...node.data.options};
     const {x, y} = this.directionConfig.swap(node);
-    // const {x, y} = node;
+
     const group = Paper.drawGroup(x, y, node.data.id, node.parent?.data.id);
     const nodeContent = nodeTemplate(node.data[this.options.contentKey]);
     const object = Paper.drawTemplate(nodeContent, {
@@ -110,7 +110,7 @@ export class Graph {
 
     if (enableTooltip) {
       group.on('mousemove', function (e: MouseEvent) {
-        const styles = getTooltipStyles(e.x, e.y, tooltipWidth, tooltipBorderColor, tooltipBGColor);
+        const styles = getTooltipStyles(e.x, e.y, tooltipMaxWidth, tooltipBorderColor, tooltipBGColor);
         updateTooltip(tooltipId, styles.join(' '), nodeContent);
       });
       group.on('mouseout', function (e: MouseEvent) {

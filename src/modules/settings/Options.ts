@@ -20,7 +20,7 @@ export interface TooltipOptions {
   readonly enableTooltip?: boolean;
   readonly tooltipId?: string;
   readonly tooltipTemplate?: (content: any) => any;
-  readonly tooltipWidth?: number;
+  readonly tooltipMaxWidth?: number;
   readonly tooltipBorderColor?: string;
   readonly tooltipBGColor?: string;
 }
@@ -62,7 +62,7 @@ export const DefaultOptions: TreeOptions = {
   containerClassName: 'root',
   enableTooltip: false,
   tooltipId: 'tooltip-container',
-  tooltipWidth: 100,
+  tooltipMaxWidth: 100,
   tooltipBorderColor: '#BCBCBC',
   tooltipBGColor: '#FFFFFF',
 };

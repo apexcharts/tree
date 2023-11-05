@@ -118,7 +118,7 @@ export const highlightToPath = (
 export const getTooltipStyles = (
   x: number,
   y: number,
-  width: number,
+  maxWidth: number,
   borderColor: string,
   bgColor: string,
 ): ReadonlyArray<string> => {
@@ -128,7 +128,7 @@ export const getTooltipStyles = (
     `top: ${y + 20}px;`,
     `border: 1px solid ${borderColor};`,
     `border-radius: 5px;`,
-    `width: ${width}px;`,
+    `max-width: ${maxWidth}px;`,
     `background-color: ${bgColor};`,
     'padding: 10px;',
   ];
