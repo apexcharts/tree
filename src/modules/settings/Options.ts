@@ -21,7 +21,8 @@ export interface TooltipOptions {
   readonly tooltipId?: string;
   readonly tooltipTemplate?: (content: any) => any;
   readonly tooltipWidth?: number;
-  readonly tooltipHeight?: number;
+  readonly tooltipBorderColor?: string;
+  readonly tooltipBGColor?: string;
 }
 
 export interface CommonOptions {
@@ -61,6 +62,9 @@ export const DefaultOptions: TreeOptions = {
   containerClassName: 'root',
   enableTooltip: false,
   tooltipId: 'tooltip-container',
+  tooltipWidth: 100,
+  tooltipBorderColor: '#BCBCBC',
+  tooltipBGColor: '#FFFFFF',
 };
 
 export interface DirectionConfigProperties {
@@ -163,8 +167,8 @@ export const DirectionConfig: Record<string, DirectionConfigProperties> = {
     edgeParentX: ({parent, nodeWidth}: ConfigParams) => parent.x + nodeWidth,
     edgeParentY: ({parent, nodeHeight}: ConfigParams) => parent.y + nodeHeight / 2,
     nodeFlexSize: ({nodeWidth, nodeHeight, siblingsMargin, childrenMargin}: ConfigParams) => {
-      // return [nodeHeight + siblingsMargin, nodeWidth + childrenMargin];
-      return [nodeWidth + siblingsMargin, nodeHeight + childrenMargin];
+      // return [nodeHeight + childrenMargin, nodeWidth + siblingsMargin];
+      return [nodeWidth + childrenMargin, nodeHeight + siblingsMargin];
     },
     calculateEdge: curvedEdgesHorizontal,
     swap: (node: TreeNode<Node>) =>

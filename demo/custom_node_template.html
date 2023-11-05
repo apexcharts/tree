@@ -77,9 +77,11 @@
       direction: 'top',
       nodeTemplate: (content) =>
         `<div style='display: flex;flex-direction: column;gap: 10px;justify-content: center;align-items: center;height: 100%;'>
-          <image style='width: 50px;height: 50px;border-radius: 50%;' src='${content.imageURL}'>
+          <img style='width: 50px;height: 50px;border-radius: 50%;' src='${content.imageURL}' alt=''>
           <div>${content.name}</div>
          </div>`,
+      enableTooltip: true,
+      tooltipId: 'tooltip',
     }
     const tree = new ApexTree(document.getElementById('svg-tree'), options);
     tree.render(data);

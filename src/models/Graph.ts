@@ -1,8 +1,16 @@
 import {G} from '@svgdotjs/svg.js';
 import {flextree, FlextreeNode} from 'd3-flextree';
-import {highlightToPath, updateTooltip} from 'src/modules/GraphUtils';
+import {getTooltip, getTooltipStyles, highlightToPath, updateTooltip} from 'src/modules/GraphUtils';
 import {Paper} from 'src/modules/Paper';
-import {DirectionConfig, DirectionConfigProperties, TreeDirection, TreeOptions} from 'src/modules/settings/Options';
+import {
+  DefaultOptions,
+  DirectionConfig,
+  DirectionConfigProperties,
+  NodeOptions,
+  TooltipOptions,
+  TreeDirection,
+  TreeOptions,
+} from 'src/modules/settings/Options';
 
 export interface GraphPoint {
   readonly x: number;
@@ -13,6 +21,7 @@ export interface Node {
   readonly id: string;
   readonly name: string;
   readonly children: Array<Node>;
+  readonly options?: NodeOptions & TooltipOptions;
 }
 
 export interface TreeNode<Datum> extends FlextreeNode<Datum> {
@@ -70,8 +79,13 @@ export class Graph {
       borderColor,
       borderColorHover,
       enableTooltip,
-      tooltipId,
     } = this.options;
+    const {
+      tooltipId = DefaultOptions.tooltipId,
+      tooltipWidth = DefaultOptions.tooltipWidth,
+      tooltipBGColor = DefaultOptions.tooltipBGColor,
+      tooltipBorderColor = DefaultOptions.tooltipBorderColor,
+    } = {...this.options, ...node.data.options};
     const {x, y} = this.directionConfig.swap(node);
     // const {x, y} = node;
     const group = Paper.drawGroup(x, y, node.data.id, node.parent?.data.id);
@@ -96,14 +110,15 @@ export class Graph {
 
     if (enableTooltip) {
       group.on('mousemove', function (e: MouseEvent) {
-        const styles = ['position: absolute;', `top: ${e.y + 20}px;`, `left: ${e.x + 20}px;`];
+        const styles = getTooltipStyles(e.x, e.y, tooltipWidth, tooltipBorderColor, tooltipBGColor);
         updateTooltip(tooltipId, styles.join(' '), nodeContent);
       });
-      group.on('mouseout', function () {
-        updateTooltip(tooltipId);
+      group.on('mouseout', function (e: MouseEvent) {
+        if ((e.relatedTarget as HTMLElement).tagName === 'svg') {
+          updateTooltip(tooltipId);
+        }
       });
     }
-    // group.animate().attr({transform: `translate(${x}, ${y})`});
     mainGroup.add(group);
 
     node.children?.forEach((child: any) => {
@@ -138,7 +153,6 @@ export class Graph {
     const edge = this.getEdge(node);
     if (!edge) return;
     const path = Paper.drawPath(edge, {id: `${node.data.id}-${node.parent?.data.id}`});
-    // path.animate().attr({d: edge});
     group.add(path);
   }
 
@@ -198,8 +212,7 @@ export class Graph {
     this.fitScreen();
 
     if (enableTooltip) {
-      const tooltipElement = document.getElementById(tooltipId || 'tooltip-container') || document.createElement('div');
-      tooltipElement.id = tooltipId || 'tooltip-container';
+      const tooltipElement = getTooltip(tooltipId);
       this.element.append(tooltipElement);
     }
   }

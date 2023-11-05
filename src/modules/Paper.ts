@@ -13,7 +13,7 @@ export class Paper {
       .addTo(element)
       .size(width, height)
       .viewbox(`0 0 ${width} ${height}`)
-      .panZoom()
+      .panZoom({zoomFactor: 0.1})
       .attr({style: 'border: 1px solid black;'});
   }
 

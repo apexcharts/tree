@@ -115,6 +115,32 @@ export const highlightToPath = (
   parentElement && highlightToPath(parentElement, {borderSize, borderColor, nodeBGColor});
 };
 
+export const getTooltipStyles = (
+  x: number,
+  y: number,
+  width: number,
+  borderColor: string,
+  bgColor: string,
+): ReadonlyArray<string> => {
+  return [
+    'position: absolute;',
+    `left: ${x + 20}px;`,
+    `top: ${y + 20}px;`,
+    `border: 1px solid ${borderColor};`,
+    `border-radius: 5px;`,
+    `width: ${width}px;`,
+    `background-color: ${bgColor};`,
+    'padding: 10px;',
+  ];
+};
+
+export const getTooltip = (tooltipId: string = 'tooltip-container') => {
+  const tooltipElement = document.getElementById(tooltipId) || document.createElement('div');
+  tooltipElement.id = tooltipId;
+  // tooltipElement.setAttribute('style', 'border: 1px solid black;');
+  return tooltipElement;
+};
+
 export const updateTooltip = (id: string = '', styles?: string | undefined, content: string = '') => {
   const tooltipElement = document.getElementById(id);
   if (styles) {
@@ -122,5 +148,8 @@ export const updateTooltip = (id: string = '', styles?: string | undefined, cont
   } else {
     tooltipElement?.removeAttribute('style');
   }
-  tooltipElement && (tooltipElement.innerHTML = content);
+
+  if (tooltipElement?.innerHTML.replaceAll("'", '"') !== content.replaceAll("'", '"')) {
+    tooltipElement && (tooltipElement.innerHTML = content);
+  }
 };
