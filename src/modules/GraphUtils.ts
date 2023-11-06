@@ -35,13 +35,9 @@ export const curvedEdgesHorizontal = (s: GraphPoint, t: GraphPoint, m: GraphPoin
     `L ${mx} ${y}`,
     `L ${x} ${y}`,
     `L ${x + w * xrvs} ${y}`,
-    `C ${x + w * xrvs + r * xrvs} ${y}`,
-    `${x + w * xrvs + r * xrvs} ${y}`,
-    `${x + w * xrvs + r * xrvs} ${y + r * yrvs}`,
+    `C ${x + w * xrvs + r * xrvs} ${y} ${x + w * xrvs + r * xrvs} ${y} ${x + w * xrvs + r * xrvs} ${y + r * yrvs}`,
     `L ${x + w * xrvs + r * xrvs} ${ey - r * yrvs}`,
-    `C ${x + w * xrvs + r * xrvs}  ${ey}`,
-    `${x + w * xrvs + r * xrvs}  ${ey}`,
-    `${ex - w * xrvs}  ${ey}`,
+    `C ${x + w * xrvs + r * xrvs} ${ey} ${x + w * xrvs + r * xrvs} ${ey} ${ex - w * xrvs} ${ey}`,
     `L ${ex} ${ey}`,
   ];
   return pathArray.join(' ');
@@ -78,7 +74,7 @@ export const curvedEdgesVertical = (s: GraphPoint, t: GraphPoint, m: GraphPoint,
     `L ${x} ${y + h * yrvs}`,
     `C  ${x} ${y + h * yrvs + r * yrvs} ${x} ${y + h * yrvs + r * yrvs} ${x + r * xrvs} ${y + h * yrvs + r * yrvs}`,
     `L ${x + w * xrvs + r * xrvs} ${y + h * yrvs + r * yrvs}`,
-    `C  ${ex}  ${y + h * yrvs + r * yrvs} ${ex}  ${y + h * yrvs + r * yrvs} ${ex} ${ey - h * yrvs}`,
+    `C  ${ex} ${y + h * yrvs + r * yrvs} ${ex} ${y + h * yrvs + r * yrvs} ${ex} ${ey - h * yrvs}`,
     `L ${ex} ${ey}`,
   ];
   return pathArray.join(' ');
@@ -117,4 +113,43 @@ export const highlightToPath = (
 
   const parentElement: HTMLElement | null = document.querySelector(`[data-self="${parent}"]`);
   parentElement && highlightToPath(parentElement, {borderSize, borderColor, nodeBGColor});
+};
+
+export const getTooltipStyles = (
+  x: number,
+  y: number,
+  maxWidth: number,
+  borderColor: string,
+  bgColor: string,
+): ReadonlyArray<string> => {
+  return [
+    'position: absolute;',
+    `left: ${x + 20}px;`,
+    `top: ${y + 20}px;`,
+    `border: 1px solid ${borderColor};`,
+    `border-radius: 5px;`,
+    `max-width: ${maxWidth}px;`,
+    `background-color: ${bgColor};`,
+    'padding: 10px;',
+  ];
+};
+
+export const getTooltip = (tooltipId: string = 'tooltip-container') => {
+  const tooltipElement = document.getElementById(tooltipId) || document.createElement('div');
+  tooltipElement.id = tooltipId;
+  // tooltipElement.setAttribute('style', 'border: 1px solid black;');
+  return tooltipElement;
+};
+
+export const updateTooltip = (id: string = '', styles?: string | undefined, content: string = '') => {
+  const tooltipElement = document.getElementById(id);
+  if (styles) {
+    tooltipElement?.setAttribute('style', styles);
+  } else {
+    tooltipElement?.removeAttribute('style');
+  }
+
+  if (tooltipElement?.innerHTML.replaceAll("'", '"') !== content.replaceAll("'", '"')) {
+    tooltipElement && (tooltipElement.innerHTML = content);
+  }
 };

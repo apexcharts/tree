@@ -1,8 +1,16 @@
-import {Dom, G} from '@svgdotjs/svg.js';
+import {G} from '@svgdotjs/svg.js';
 import {flextree, FlextreeNode} from 'd3-flextree';
-import {highlightToPath} from 'src/modules/GraphUtils';
+import {getTooltip, getTooltipStyles, highlightToPath, updateTooltip} from 'src/modules/GraphUtils';
 import {Paper} from 'src/modules/Paper';
-import {DirectionConfig, DirectionConfigProperties, TreeDirection, TreeOptions} from 'src/modules/settings/Options';
+import {
+  DefaultOptions,
+  DirectionConfig,
+  DirectionConfigProperties,
+  NodeOptions,
+  TooltipOptions,
+  TreeDirection,
+  TreeOptions,
+} from 'src/modules/settings/Options';
 
 export interface GraphPoint {
   readonly x: number;
@@ -13,6 +21,7 @@ export interface Node {
   readonly id: string;
   readonly name: string;
   readonly children: Array<Node>;
+  readonly options?: NodeOptions & TooltipOptions;
 }
 
 export interface TreeNode<Datum> extends FlextreeNode<Datum> {
@@ -22,11 +31,11 @@ export interface TreeNode<Datum> extends FlextreeNode<Datum> {
 export class Graph {
   public options: TreeOptions;
   public rootNode: TreeNode<Node>;
-  public element: Dom;
+  public element: HTMLElement;
   public paper: Paper;
   private directionConfig: DirectionConfigProperties;
 
-  constructor(element: Dom, options: TreeOptions) {
+  constructor(element: HTMLElement, options: TreeOptions) {
     this.element = element;
     this.options = options;
     const {width, height} = this.options;
@@ -69,19 +78,19 @@ export class Graph {
       borderSize,
       borderColor,
       borderColorHover,
+      enableTooltip,
     } = this.options;
+    const {
+      tooltipId = DefaultOptions.tooltipId,
+      tooltipMaxWidth = DefaultOptions.tooltipMaxWidth,
+      tooltipBGColor = DefaultOptions.tooltipBGColor,
+      tooltipBorderColor = DefaultOptions.tooltipBorderColor,
+    } = {...this.options, ...node.data.options};
     const {x, y} = this.directionConfig.swap(node);
-    // const {x, y} = node;
-    const group = Paper.drawGroup(x, y, node.data.id, node.parent?.data.id);
-    const rect = Paper.drawRect({
-      width: nodeWidth,
-      height: nodeHeight,
-      radius: nodeBorderRadius,
-      id: node.data.name,
-    });
-    group.add(rect);
 
-    const object = Paper.drawTemplate(nodeTemplate(node.data[this.options.contentKey]), {
+    const group = Paper.drawGroup(x, y, node.data.id, node.parent?.data.id);
+    const nodeContent = nodeTemplate(node.data[this.options.contentKey]);
+    const object = Paper.drawTemplate(nodeContent, {
       nodeWidth,
       nodeHeight,
       nodeBGColor,
@@ -96,6 +105,18 @@ export class Graph {
       });
       group.on('mouseout', function () {
         highlightToPath(this.node, {borderSize: 1, borderColor: borderColor, nodeBGColor});
+      });
+    }
+
+    if (enableTooltip) {
+      group.on('mousemove', function (e: MouseEvent) {
+        const styles = getTooltipStyles(e.x, e.y, tooltipMaxWidth, tooltipBorderColor, tooltipBGColor);
+        updateTooltip(tooltipId, styles.join(' '), nodeContent);
+      });
+      group.on('mouseout', function (e: MouseEvent) {
+        if ((e.relatedTarget as HTMLElement).tagName === 'svg') {
+          updateTooltip(tooltipId);
+        }
       });
     }
     mainGroup.add(group);
@@ -164,45 +185,21 @@ export class Graph {
   }
 
   public fitScreen() {
-    const {width, height, nodeWidth, nodeHeight, containerClassName} = this.options;
-    const {containerXFromGraphSize, containerYFromGraphSize} = this.directionConfig;
-    const root = this.paper.get(`#${containerClassName}`);
-    const rootWidth = root?.width() as number;
-    const rootHeight = root?.height() as number;
-    const lowestScale = Math.min(width / (rootWidth + 100), height / (rootHeight + 100));
-    const scaledNodeWidth = nodeWidth * lowestScale;
-    const scaledNodeHeight = nodeHeight * lowestScale;
-    const containerWidth = rootWidth * lowestScale;
-    const containerHeight = rootHeight * lowestScale;
-    const rootX = containerXFromGraphSize({
-      width,
-      height,
-      nodeWidth: scaledNodeWidth,
-      nodeHeight: scaledNodeHeight,
-      containerWidth,
-      containerHeight,
-    });
-    const rootY = containerYFromGraphSize({
-      width,
-      height,
-      nodeWidth: scaledNodeWidth,
-      nodeHeight: scaledNodeHeight,
-      containerWidth,
-      containerHeight,
-    });
-    root.attr({transform: `translate(${rootX}, ${rootY}) scale(${lowestScale})`});
-    this.paper.resetViewBox();
+    const {childrenSpacing, siblingSpacing} = this.options;
+    const {viewBoxDimensions} = this.directionConfig;
+    const {
+      x,
+      y,
+      width: vWidth,
+      height: vHeight,
+    } = viewBoxDimensions({rootNode: this.rootNode, childrenSpacing, siblingSpacing});
+    this.paper.updateViewBox(x, y, vWidth, vHeight);
   }
 
   public render(): void {
     this.clear();
-    const {containerX, containerY} = this.directionConfig;
-    const {width, height, nodeWidth, nodeHeight, containerClassName} = this.options;
-    const mainGroup = Paper.drawGroup(
-      containerX({width, height, nodeWidth, nodeHeight}),
-      containerY({width, height, nodeWidth, nodeHeight}),
-      containerClassName,
-    );
+    const {containerClassName, enableTooltip, tooltipId} = this.options;
+    const mainGroup = Paper.drawGroup(0, 0, containerClassName);
     mainGroup.id(containerClassName);
     this.renderNode(this.rootNode, mainGroup);
 
@@ -213,5 +210,10 @@ export class Graph {
     });
     this.paper.add(mainGroup);
     this.fitScreen();
+
+    if (enableTooltip) {
+      const tooltipElement = getTooltip(tooltipId);
+      this.element.append(tooltipElement);
+    }
   }
 }

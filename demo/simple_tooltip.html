@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="../dist/ApexTree.js"></script>
+</head>
+<body>
+<div id="svg-tree"></div>
+<script>
+  const data = {
+    "Id": "parent",
+    "Role": "Board",
+    "children": [
+      {
+        "Id": "1",
+        "Role": "General Manager",
+        "Manager": "parent",
+        "children": [
+          {
+            "Id": "11",
+            "Role": "Assistant General Manager",
+            "Manager": "1",
+          },
+          {
+            "Id": "2",
+            "Role": "Human Resource Manager",
+            "Manager": "1",
+            "children": [
+              {
+                "Id": "3",
+                "Role": "Trainers",
+                "Manager": "2",
+              },
+              {
+                "Id": "4",
+                "Role": "Recruiting Team",
+                "Manager": "2",
+              },
+              {
+                "Id": "5",
+                "Role": "Finance Asst. Manager",
+                "Manager": "2",
+              }
+            ]
+          },
+          {
+            "Id": "6",
+            "Role": "Design Manager",
+            "Manager": "1",
+            "children": [
+              {
+                "Id": "7",
+                "Role": "Design Supervisor",
+                "Manager": "6",
+              },
+              {
+                "Id": "8",
+                "Role": "Development Supervisor",
+                "Manager": "6",
+              },
+              {
+                "Id": "9",
+                "Role": "Drafting Supervisor",
+                "Manager": "6",
+              }
+            ]
+          },
+          {
+            "Id": "10",
+            "Role": "Operations Manager",
+            "Manager": "1",
+            "children": [
+              {
+                "Id": "11",
+                "Role": "Statistics Department",
+                "Manager": "10",
+              },
+              {
+                "Id": "12",
+                "Role": "Logistics Department",
+                "Manager": "10",
+              }
+            ]
+          },
+          {
+            "Id": "16",
+            "Role": "Marketing Manager",
+            "Manager": "1",
+            "children": [
+              {
+                "Id": "17",
+                "Role": "Overseas Sales Manager",
+                "Manager": "16",
+              },
+              {
+                "Id": "18",
+                "Role": "Petroleum Manager",
+                "Manager": "16",
+              },
+              {
+                "Id": "20",
+                "Role": "Service Department Manager",
+                "Manager": "16",
+              },
+              {
+                "Id": "21",
+                "Role": "Quality Control Department",
+                "Manager": "16",
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  };
+  const options = {
+    idKey: 'Id',
+    contentKey: 'Role',
+    width: 700,
+    height: 700,
+    nodeWidth: 180,
+    nodeHeight: 50,
+    childrenSpacing: 100,
+    siblingSpacing: 30,
+    direction: 'top',
+    enableTooltip: true,
+    tooltipId: 'tooltip',
+    tooltipMaxWidth: 250,
+    nodeTemplate: (content) => {
+      return `<div style='display: flex;justify-content: space-around;align-items: center;height: 100%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;'>${content}</div>`;
+    }
+  }
+  const tree = new ApexTree(document.getElementById('svg-tree'), options);
+  tree.render(data);
+</script>
+</body>
+</html>

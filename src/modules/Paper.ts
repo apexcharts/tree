@@ -1,4 +1,4 @@
-import {Dom, Element, ForeignObject, G, Path, Rect, Svg, SVG, Text, TextAttr} from '@svgdotjs/svg.js';
+import {Element, ForeignObject, G, Path, Rect, Svg, SVG, Text, TextAttr} from '@svgdotjs/svg.js';
 import '@svgdotjs/svg.panzoom.js';
 import {DefaultOptions, NodeOptions} from 'src/modules/settings/Options';
 
@@ -6,14 +6,14 @@ export class Paper {
   private width: number;
   private height: number;
   private svg: Svg;
-  constructor(element: Dom, width: number, height: number) {
+  constructor(element: HTMLElement, width: number, height: number) {
     this.width = width;
     this.height = height;
     this.svg = SVG()
       .addTo(element)
       .size(width, height)
       .viewbox(`0 0 ${width} ${height}`)
-      .panZoom()
+      .panZoom({zoomFactor: 0.2})
       .attr({style: 'border: 1px solid black;'});
   }
 
@@ -23,6 +23,10 @@ export class Paper {
 
   public resetViewBox(): void {
     this.svg.viewbox(`0 0 ${this.width} ${this.height}`);
+  }
+
+  public updateViewBox(x: number, y: number, width: number, height: number): void {
+    this.svg.viewbox(`${x} ${y} ${width} ${height}`);
   }
 
   public get(selector: string): Element {
@@ -41,7 +45,6 @@ export class Paper {
     radius = 0,
     color = '#fefefe',
     opacity = 1,
-    id = '',
   } = {}): Rect {
     const rect = new Rect();
     rect.attr({
@@ -53,7 +56,6 @@ export class Paper {
       ry: radius,
       opacity,
     });
-    rect.id(id);
     rect.fill(color);
     return rect;
   }
@@ -83,7 +85,7 @@ export class Paper {
       nodeWidth,
       nodeHeight,
       borderColor,
-      borderSize,
+      borderSize = 0,
       nodeBGColor = DefaultOptions.nodeBGColor,
       nodeBorderRadius = DefaultOptions.nodeBorderRadius,
     }: Partial<NodeOptions> = {},

@@ -58,26 +58,6 @@
               "id": "10",
               "name": "ACA"
             },
-            {
-              "id": "11",
-              "name": "ACB",
-              "children": [
-                {
-                  "id": "12",
-                  "name": "AD",
-                  "children": [
-                    {
-                      "id": "13",
-                      "name": "ADA"
-                    }
-                  ]
-                },
-                {
-                  "id": "14",
-                  "name": "AE"
-                }
-              ]
-            }
           ]
         },
         {
@@ -94,11 +74,58 @@
               "children": [
                 {
                   "id": "18",
-                  "name": "Long text"
+                  "name": "Long text Long text Long text Long text Long text Long text Long text text Long text",
+                  "options": {
+                    tooltipWidth: 300,
+                  }
                 },
                 {
                   "id": "19",
                   "name": "ABB"
+                },
+                {
+                  "id": "11",
+                  "name": "ACB",
+                  "children": [
+                    {
+                      "id": "12",
+                      "name": "AD",
+                      "children": [
+                        {
+                          "id": "13",
+                          "name": "ADA",
+                          "children": [
+                            {
+                              "id": "24",
+                              "name": "ADA",
+                              "children": [
+                                {
+                                  "id": "26",
+                                  "name": "ADA"
+                                },
+                                {
+                                  "id": "27",
+                                  "name": "ADA"
+                                }
+                              ]
+                            },
+                            {
+                              "id": "25",
+                              "name": "ADA"
+                            }
+                          ]
+                        },
+                        {
+                          "id": "23",
+                          "name": "ADA"
+                        }
+                      ]
+                    },
+                    {
+                      "id": "14",
+                      "name": "AE"
+                    }
+                  ]
                 }
               ]
             },
@@ -106,6 +133,14 @@
         },
         {
           "id": "20",
+          "name": "AE"
+        },
+        {
+          "id": "21",
+          "name": "AE"
+        },
+        {
+          "id": "22",
           "name": "AE"
         }
       ]
@@ -120,6 +155,8 @@
       childrenSpacing: 100,
       siblingSpacing: 30,
       direction: 'top',
+      enableTooltip: true,
+      tooltipId: 'tooltip',
     }
     const tree = new ApexTree(document.getElementById('svg-tree'), options);
     const graph = tree.render(data);

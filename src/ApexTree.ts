@@ -1,14 +1,13 @@
-import {Dom} from '@svgdotjs/svg.js';
 import {Node} from 'src/models/Graph';
 import {DefaultOptions, TreeOptions} from './modules/settings/Options';
 import {Graph} from './models';
 
 export class ApexTree {
-  public element: Dom;
+  public element: HTMLElement;
   public options: TreeOptions;
   public graph: Graph;
 
-  constructor(element: Dom, options: TreeOptions) {
+  constructor(element: HTMLElement, options: TreeOptions) {
     this.element = element;
     this.options = {...DefaultOptions, ...options};
     this.graph = new Graph(this.element, this.options);
