@@ -167,8 +167,8 @@ export const DirectionConfig: Record<string, DirectionConfigProperties> = {
     edgeParentX: ({parent, nodeWidth}: ConfigParams) => parent.x + nodeWidth,
     edgeParentY: ({parent, nodeHeight}: ConfigParams) => parent.y + nodeHeight / 2,
     nodeFlexSize: ({nodeWidth, nodeHeight, siblingsMargin, childrenMargin}: ConfigParams) => {
-      // return [nodeHeight + childrenMargin, nodeWidth + siblingsMargin];
-      return [nodeWidth + childrenMargin, nodeHeight + siblingsMargin];
+      // return [nodeHeight + siblingsMargin, nodeWidth + childrenMargin];
+      return [nodeWidth + siblingsMargin, nodeHeight + childrenMargin];
     },
     calculateEdge: curvedEdgesHorizontal,
     swap: (node: TreeNode<Node>) =>
