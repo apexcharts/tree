@@ -79,38 +79,22 @@ export class Paper {
     return textSvg;
   }
 
-  static drawTemplate(
-    template: any,
-    {
-      nodeWidth,
-      nodeHeight,
-      borderColor,
-      borderSize = 0,
-      nodeBGColor = DefaultOptions.nodeBGColor,
-      nodeBorderRadius = DefaultOptions.nodeBorderRadius,
-    }: Partial<NodeOptions> = {},
-  ): any {
-    const styles = [
-      `background-color: ${nodeBGColor};`,
-      `border-radius: ${nodeBorderRadius}px;`,
-      `border: ${borderSize}px solid ${borderColor}`,
-    ];
+  static drawTemplate(template: any, {nodeWidth, nodeHeight}: Partial<NodeOptions> = {}): ForeignObject {
     const object = new ForeignObject({
       width: nodeWidth,
       height: nodeHeight,
-      style: styles.join(' '),
     });
     object.add(template);
     return object;
   }
 
-  static drawGroup(x: number = 0, y: number = 0, id: string, parent: string = '') {
+  static drawGroup(x: number = 0, y: number = 0, id: string, parent: string = ''): G {
     const group = new G();
     group.attr({transform: `translate(${x}, ${y})`, 'data-self': id, 'data-parent': parent});
     return group;
   }
 
-  static drawPath(pathString: string, {id = '', borderColor = DefaultOptions.borderColor} = {}) {
+  static drawPath(pathString: string, {id = '', borderColor = DefaultOptions.borderColor} = {}): Path {
     const path = new Path({d: pathString});
     path.id(id);
     path.fill('none').stroke({color: borderColor, width: 1});
