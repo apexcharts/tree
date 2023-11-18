@@ -121,8 +121,9 @@ export const getTooltipStyles = (
   maxWidth: number,
   borderColor: string,
   bgColor: string,
+  addPadding: boolean,
 ): ReadonlyArray<string> => {
-  return [
+  const styles = [
     'position: absolute;',
     `left: ${x + 20}px;`,
     `top: ${y + 20}px;`,
@@ -130,8 +131,11 @@ export const getTooltipStyles = (
     `border-radius: 5px;`,
     `max-width: ${maxWidth}px;`,
     `background-color: ${bgColor};`,
-    'padding: 10px;',
   ];
+  if (addPadding) {
+    styles.push('padding: 10px;');
+  }
+  return styles;
 };
 
 export const getTooltip = (tooltipId: string = 'tooltip-container') => {

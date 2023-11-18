@@ -131,6 +131,9 @@
     nodeTemplate: (content) => {
       return `<div style='display: flex;justify-content: space-around;align-items: center;height: 100%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;'>${content}</div>`;
     },
+    tooltipTemplate: (content) => {
+      return `<div style='display: flex;justify-content: space-around;align-items: center;padding: 10px;background-color: grey;color: white;'>${content}</div>`;
+    }
   }
   const tree = new ApexTree(document.getElementById('svg-tree'), options);
   tree.render(data);

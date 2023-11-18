@@ -39,6 +39,10 @@ export interface CommonOptions {
 
 export type TreeOptions = CommonOptions & NodeOptions & TooltipOptions;
 
+const defaultNodeTemplate = (content: string) => {
+  return `<div style='display: flex;justify-content: center;align-items: center;height: 100%;'>${content}</div>`;
+};
+
 export const DefaultOptions: TreeOptions = {
   width: 400,
   height: 400,
@@ -46,9 +50,7 @@ export const DefaultOptions: TreeOptions = {
   contentKey: 'name',
   nodeWidth: 50,
   nodeHeight: 30,
-  nodeTemplate: (content: string) => {
-    return `<div style='display: flex;justify-content: center;align-items: center;height: 100%;'>${content}</div>`;
-  },
+  nodeTemplate: defaultNodeTemplate,
   nodeBorderRadius: 5,
   nodeBGColor: '#FFFFFF',
   nodeBGColorHover: '#FFFFFF',

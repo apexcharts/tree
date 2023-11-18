@@ -79,6 +79,7 @@ export class Graph {
       borderColor,
       borderColorHover,
       enableTooltip,
+      tooltipTemplate,
     } = this.options;
     const {
       tooltipId = DefaultOptions.tooltipId,
@@ -109,9 +110,17 @@ export class Graph {
     }
 
     if (enableTooltip) {
+      const tooltipContent = tooltipTemplate ? tooltipTemplate(node.data[this.options.contentKey]) : nodeContent;
       group.on('mousemove', function (e: MouseEvent) {
-        const styles = getTooltipStyles(e.x, e.y, tooltipMaxWidth, tooltipBorderColor, tooltipBGColor);
-        updateTooltip(tooltipId, styles.join(' '), nodeContent);
+        const styles = getTooltipStyles(
+          e.x,
+          e.y,
+          tooltipMaxWidth,
+          tooltipBorderColor,
+          tooltipBGColor,
+          !tooltipTemplate,
+        );
+        updateTooltip(tooltipId, styles.join(' '), tooltipContent);
       });
       group.on('mouseout', function (e: MouseEvent) {
         if ((e.relatedTarget as HTMLElement).tagName === 'svg') {
