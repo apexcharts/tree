@@ -7,7 +7,7 @@
   <script src="../dist/ApexTree.js"></script>
 </head>
 <body>
-  <div id="svg-tree"></div>
+  <div id="svg-tree" style='display: flex;justify-content: center;'></div>
   <script>
     const data = {
       "id": "A",
@@ -87,7 +87,8 @@
       childrenSpacing: 50,
       siblingSpacing: 20,
       direction: 'left',
-    }
+      canvasStyle: 'border: 1px solid black;background: #f6f6f6;',
+    };
     const tree = new ApexTree(document.getElementById('svg-tree'), options);
     tree.render(data);
   </script>

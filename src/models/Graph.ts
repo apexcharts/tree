@@ -31,8 +31,8 @@ export class Graph {
   constructor(element: HTMLElement, options: TreeOptions) {
     this.element = element;
     this.options = options;
-    const {width, height} = this.options;
-    this.paper = new Paper(this.element, width, height);
+    const {width, height, canvasStyle} = this.options;
+    this.paper = new Paper(this.element, width, height, canvasStyle);
   }
 
   public clear() {

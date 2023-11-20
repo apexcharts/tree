@@ -7,7 +7,7 @@
   <script src="../dist/ApexTree.js"></script>
 </head>
 <body>
-  <div id="svg-tree"></div>
+  <div id="svg-tree" style='display: flex;justify-content: center;'></div>
   <script>
     const avatarURL = "https://i.pravatar.cc/300";
     const data = {
@@ -79,7 +79,8 @@
           <img style='width: 50px;height: 50px;border-radius: 50%;' src='${content.imageURL}' alt=''>
           <div>${content.name}</div>
          </div>`,
-    }
+      canvasStyle: 'border: 1px solid black;background: #f6f6f6;',
+    };
     const tree = new ApexTree(document.getElementById('svg-tree'), options);
     tree.render(data);
   </script>

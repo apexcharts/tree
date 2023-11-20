@@ -38,6 +38,7 @@ export interface CommonOptions {
   readonly childrenSpacing: number;
   readonly highlightOnHover: boolean;
   readonly containerClassName: string;
+  readonly canvasStyle: string;
 }
 
 export type TreeOptions = CommonOptions & NodeOptions & TooltipOptions & FontOptions;
@@ -74,4 +75,5 @@ export const DefaultOptions: TreeOptions = {
   fontFamily: '',
   fontWeight: 400,
   fontColor: '#000000',
+  canvasStyle: '',
 };

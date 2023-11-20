@@ -6,7 +6,7 @@ export class Paper {
   private width: number;
   private height: number;
   private svg: Svg;
-  constructor(element: HTMLElement, width: number, height: number) {
+  constructor(element: HTMLElement, width: number, height: number, canvasStyle: string) {
     this.width = width;
     this.height = height;
     this.svg = SVG()
@@ -14,7 +14,7 @@ export class Paper {
       .size(width, height)
       .viewbox(`0 0 ${width} ${height}`)
       .panZoom({zoomFactor: 0.2})
-      .attr({style: 'border: 1px solid black;'});
+      .attr({style: canvasStyle});
   }
 
   public add(element: Element) {
