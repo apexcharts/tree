@@ -19,14 +19,11 @@ export const highlightToPath = (
   const parent = node.getAttribute('data-parent');
 
   const selfContentElement: HTMLElement | null = document.querySelector(`[data-self='${self}'] foreignObject`);
-  const borderStyles = [
-    `background-color: ${nodeBGColor};`,
-    `border-radius: ${borderRadius};`,
-    `border: ${borderWidth}px solid ${borderColor}`,
-  ];
-  setAttributes(selfContentElement, {
-    style: borderStyles.join(' '),
-  });
+
+  if (selfContentElement) {
+    selfContentElement.style.border = `${borderWidth}px solid ${borderColor}`;
+    selfContentElement.style.borderRadius = borderRadius;
+  }
 
   const edge = document.getElementById(`${self}-${parent}`);
   setAttributes(edge, {'stroke-width': borderWidth.toString(), stroke: borderColor});

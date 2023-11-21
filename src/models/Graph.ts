@@ -43,13 +43,11 @@ export class Graph {
     const {nodeWidth, nodeHeight, siblingSpacing, childrenSpacing} = this.options;
     const flexLayout = flextree({
       nodeSize: () => {
-        const siblingsMargin = siblingSpacing;
-        const childrenMargin = childrenSpacing;
         return DirectionConfig[this.options.direction].nodeFlexSize({
           nodeWidth,
           nodeHeight,
-          siblingsMargin,
-          childrenMargin,
+          siblingSpacing,
+          childrenSpacing,
         });
       },
       spacing: 0,
@@ -59,21 +57,8 @@ export class Graph {
   }
 
   public renderNode(node: TreeNode<Node>, mainGroup: G) {
-    const {
-      nodeWidth,
-      nodeHeight,
-      nodeTemplate,
-      nodeBGColor,
-      nodeBGColorHover,
-      highlightOnHover,
-      borderRadius,
-      borderWidth,
-      borderStyle,
-      borderColor,
-      borderColorHover,
-      enableTooltip,
-      tooltipTemplate,
-    } = this.options;
+    const {nodeWidth, nodeHeight, nodeTemplate, highlightOnHover, borderRadius, enableTooltip, tooltipTemplate} =
+      this.options;
     const {
       tooltipId,
       tooltipMaxWidth,
@@ -83,6 +68,11 @@ export class Graph {
       fontWeight,
       fontFamily,
       fontColor,
+      borderWidth,
+      borderStyle,
+      borderColor,
+      borderColorHover,
+      nodeBGColor,
     } = {...this.options, ...node.data.options};
     const {x, y} = DirectionConfig[this.options.direction].swap(node);
 
@@ -110,10 +100,10 @@ export class Graph {
     group.add(object);
     if (highlightOnHover) {
       group.on('mouseover', function () {
-        highlightToPath(this.node, {borderWidth: 2, borderColor: borderColorHover, nodeBGColor: nodeBGColorHover});
+        highlightToPath(this.node, {borderWidth: 2, borderColor: borderColorHover});
       });
       group.on('mouseout', function () {
-        highlightToPath(this.node, {borderWidth: 1, borderColor: borderColor, nodeBGColor});
+        highlightToPath(this.node, {borderWidth: 1, borderColor: borderColor});
       });
     }
 
