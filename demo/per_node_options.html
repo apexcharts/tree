@@ -20,9 +20,9 @@
         fontFamily: 'sans-serif',
         fontWeight: 600,
         fontColor: '#a06dcc',
-        borderWidth: '2px',
+        borderWidth: 2,
         borderColor: '#a06dcc',
-        borderColorHover: '#cc6dbc',
+        borderColorHover: '#ec327e',
         nodeBGColor: '#efdfff',
         nodeBGColorHover: '#d5c3ff',
       },
@@ -62,6 +62,10 @@
         {
           "id": "8",
           "name": "Fungi",
+          "options": {
+            nodeBGColorHover: '#a7c7e3',
+            borderColorHover: '#e563c7',
+          }
         },
         {
           "id": "9",
@@ -142,12 +146,13 @@
       nodeHeight: 50,
       childrenSpacing: 180,
       siblingSpacing: 30,
-      direction: 'right',
+      direction: 'left',
       fontSize: '20px',
       fontFamily: 'Quicksand, sans-serif',
       fontWeight: 600,
       fontColor: '#388ac4',
       borderColorHover: '#388ac4',
+      nodeBGColorHover: '#d7d7d7',
       canvasStyle: 'border: 1px solid black;background: #f6f6f6;',
     };
     const tree = new ApexTree(document.getElementById('svg-tree'), options);

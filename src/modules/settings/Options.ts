@@ -7,7 +7,7 @@ export interface NodeOptions {
   readonly nodeBGColorHover: string;
   readonly nodeTemplate: (content: any) => any;
   readonly borderRadius: string;
-  readonly borderWidth: string;
+  readonly borderWidth: number;
   readonly borderColor: string;
   readonly borderStyle: string;
   readonly borderColorHover: string;
@@ -56,7 +56,7 @@ export const DefaultOptions: TreeOptions = {
   nodeTemplate: defaultNodeTemplate,
   nodeBGColor: '#FFFFFF',
   nodeBGColorHover: '#FFFFFF',
-  borderWidth: '1px',
+  borderWidth: 1,
   borderStyle: 'solid',
   borderRadius: '5px',
   borderColor: '#BCBCBC',

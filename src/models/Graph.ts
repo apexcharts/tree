@@ -57,8 +57,9 @@ export class Graph {
   }
 
   public renderNode(node: TreeNode<Node>, mainGroup: G) {
+    const options = this.options;
     const {nodeWidth, nodeHeight, nodeTemplate, highlightOnHover, borderRadius, enableTooltip, tooltipTemplate} =
-      this.options;
+      options;
     const {
       tooltipId,
       tooltipMaxWidth,
@@ -71,13 +72,12 @@ export class Graph {
       borderWidth,
       borderStyle,
       borderColor,
-      borderColorHover,
       nodeBGColor,
-    } = {...this.options, ...node.data.options};
-    const {x, y} = DirectionConfig[this.options.direction].swap(node);
+    } = {...options, ...node.data.options};
+    const {x, y} = DirectionConfig[options.direction].swap(node);
 
     const group = Paper.drawGroup(x, y, node.data.id, node.parent?.data.id);
-    const nodeContent = nodeTemplate(node.data[this.options.contentKey as keyof Node]);
+    const nodeContent = nodeTemplate(node.data[options.contentKey as keyof Node]);
     const object = Paper.drawTemplate(nodeContent, {
       nodeWidth,
       nodeHeight,
@@ -98,12 +98,17 @@ export class Graph {
     object.attr('style', borderStyles);
     group.attr('style', nodeStyle);
     group.add(object);
+    const nodes = this.rootNode.nodes;
     if (highlightOnHover) {
       group.on('mouseover', function () {
-        highlightToPath(this.node, {borderWidth: 2, borderColor: borderColorHover});
+        const self = this.node.dataset.self;
+        const selfNode = nodes.find((n) => n.data.id === self);
+        selfNode && highlightToPath(nodes, selfNode, true, options);
       });
       group.on('mouseout', function () {
-        highlightToPath(this.node, {borderWidth: 1, borderColor: borderColor});
+        const self = this.node.dataset.self;
+        const selfNode = nodes.find((n) => n.data.id === self);
+        selfNode && highlightToPath(nodes, selfNode, false, options);
       });
     }
 
@@ -129,10 +134,6 @@ export class Graph {
       });
     }
     mainGroup.add(group);
-
-    node.children?.forEach((child: any) => {
-      this.renderNode(child, mainGroup);
-    });
   }
 
   public renderEdge(node: TreeNode<Node>, group: G) {
@@ -190,11 +191,11 @@ export class Graph {
     const mainGroup = Paper.drawGroup(0, 0, containerClassName);
     mainGroup.attr('style', globalStyle);
     mainGroup.id(containerClassName);
-    this.renderNode(this.rootNode, mainGroup);
 
-    const nodes = this.rootNode.descendants().slice(1);
+    const nodes = this.rootNode.nodes;
     console.log('nodes', this.rootNode, nodes);
     nodes.forEach((node: any) => {
+      this.renderNode(node, mainGroup);
       this.renderEdge(node, mainGroup);
     });
     this.paper.add(mainGroup);

@@ -1,4 +1,5 @@
-import {DefaultOptions, FontOptions} from 'src/modules/settings/Options';
+import {Node, TreeNode} from 'src/models/Graph';
+import {FontOptions, TreeOptions} from 'src/modules/settings/Options';
 
 export const setAttributes = (element: Element | null, attrs: Record<string, any> = {}) => {
   for (const key in attrs) {
@@ -7,29 +8,40 @@ export const setAttributes = (element: Element | null, attrs: Record<string, any
 };
 
 export const highlightToPath = (
-  node: HTMLElement,
-  {
-    borderWidth = 1,
-    borderColor = DefaultOptions.borderColorHover,
-    nodeBGColor = DefaultOptions.nodeBGColor,
-    borderRadius = DefaultOptions.borderRadius,
-  },
+  nodes: ReadonlyArray<TreeNode<Node>>,
+  selfNode: TreeNode<Node>,
+  isHighlighted: boolean,
+  options: TreeOptions,
 ): void => {
-  const self = node.getAttribute('data-self');
-  const parent = node.getAttribute('data-parent');
+  const nodeOptions = selfNode?.data.options;
+  let borderWidth = nodeOptions?.borderWidth || options.borderWidth;
+  let borderColor = nodeOptions?.borderColor || options.borderColor;
+  let backgroundColor = nodeOptions?.nodeBGColor || options.nodeBGColor;
 
-  const selfContentElement: HTMLElement | null = document.querySelector(`[data-self='${self}'] foreignObject`);
-
+  if (isHighlighted) {
+    borderWidth = borderWidth + 1;
+    borderColor = nodeOptions?.borderColorHover || options.borderColorHover;
+    backgroundColor = nodeOptions?.nodeBGColorHover || options.nodeBGColorHover;
+  }
+  const selfContentElement: HTMLElement | null = document.querySelector(
+    `[data-self='${selfNode.data.id}'] foreignObject`,
+  );
   if (selfContentElement) {
-    selfContentElement.style.border = `${borderWidth}px solid ${borderColor}`;
-    selfContentElement.style.borderRadius = borderRadius;
+    selfContentElement.style.borderWidth = `${borderWidth}px`;
+    selfContentElement.style.borderColor = borderColor;
+    selfContentElement.style.backgroundColor = backgroundColor;
   }
 
-  const edge = document.getElementById(`${self}-${parent}`);
-  setAttributes(edge, {'stroke-width': borderWidth.toString(), stroke: borderColor});
+  if (selfNode.parent) {
+    const edge = document.getElementById(`${selfNode.data.id}-${selfNode.parent?.data.id}`);
+    if (isHighlighted) {
+      setAttributes(edge, {'stroke-width': options.borderWidth + 1, stroke: options.borderColorHover});
+    } else {
+      setAttributes(edge, {'stroke-width': options.borderWidth, stroke: options.borderColor});
+    }
 
-  const parentElement: HTMLElement | null = document.querySelector(`[data-self="${parent}"]`);
-  parentElement && highlightToPath(parentElement, {borderWidth, borderColor, nodeBGColor});
+    selfNode.parent && highlightToPath(nodes, selfNode.parent, isHighlighted, options);
+  }
 };
 
 export const getTooltipStyles = (
