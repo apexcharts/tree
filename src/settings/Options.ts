@@ -39,6 +39,7 @@ export interface CommonOptions {
   readonly highlightOnHover: boolean;
   readonly containerClassName: string;
   readonly canvasStyle: string;
+  readonly enableToolbar: boolean;
 }
 
 export type TreeOptions = CommonOptions & NodeOptions & TooltipOptions & FontOptions;
@@ -76,4 +77,5 @@ export const DefaultOptions: TreeOptions = {
   fontWeight: 400,
   fontColor: '#000000',
   canvasStyle: '',
+  enableToolbar: false,
 };

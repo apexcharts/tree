@@ -1,10 +1,10 @@
 import {G, Path} from '@svgdotjs/svg.js';
 import {flextree, FlextreeNode} from 'd3-flextree';
-import {getEdge} from 'src/modules/EdgeUtils';
-import {generateStyles, getTooltip, getTooltipStyles, highlightToPath, updateTooltip} from 'src/modules/GraphUtils';
-import {Paper} from 'src/modules/Paper';
-import {DirectionConfig} from 'src/modules/settings/DirectionConfig';
-import {FontOptions, NodeOptions, TooltipOptions, TreeDirection, TreeOptions} from 'src/modules/settings/Options';
+import {getEdge} from 'src/utils/EdgeUtils';
+import {generateStyles, getTooltip, getTooltipStyles, highlightToPath, updateTooltip} from 'src/utils/GraphUtils';
+import {Paper} from 'src/models/Paper';
+import {DirectionConfig} from 'src/settings/DirectionConfig';
+import {FontOptions, NodeOptions, TooltipOptions, TreeDirection, TreeOptions} from 'src/settings/Options';
 
 export interface GraphPoint {
   readonly x: number;
@@ -23,20 +23,14 @@ export interface TreeNode<N> extends FlextreeNode<N> {
   edge?: Path;
 }
 
-export class Graph {
+export class Graph extends Paper {
   public options: TreeOptions;
   public rootNode: TreeNode<Node>;
   public element: HTMLElement;
-  public paper: Paper;
   constructor(element: HTMLElement, options: TreeOptions) {
+    super(element, options.width, options.height, options.canvasStyle);
     this.element = element;
     this.options = options;
-    const {width, height, canvasStyle} = this.options;
-    this.paper = new Paper(this.element, width, height, canvasStyle);
-  }
-
-  public clear() {
-    this.paper.clear();
   }
 
   public construct(data: Node): void {
@@ -181,7 +175,7 @@ export class Graph {
       width: vWidth,
       height: vHeight,
     } = viewBoxDimensions({rootNode: this.rootNode, childrenSpacing, siblingSpacing});
-    this.paper.updateViewBox(x, y, vWidth, vHeight);
+    this.updateViewBox(x, y, vWidth, vHeight);
   }
 
   public render(): void {
@@ -198,7 +192,7 @@ export class Graph {
       this.renderNode(node, mainGroup);
       this.renderEdge(node, mainGroup);
     });
-    this.paper.add(mainGroup);
+    this.add(mainGroup);
     this.fitScreen();
 
     if (enableTooltip) {

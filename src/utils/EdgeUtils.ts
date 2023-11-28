@@ -1,5 +1,5 @@
 import {Node, TreeNode} from 'src/models/Graph';
-import {DirectionConfig} from 'src/modules/settings/DirectionConfig';
+import {DirectionConfig} from 'src/settings/DirectionConfig';
 
 export const getEdge = (
   node: TreeNode<Node>,

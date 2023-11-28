@@ -1,6 +1,5 @@
-import {Node} from 'src/models/Graph';
-import {DefaultOptions, TreeOptions} from './modules/settings/Options';
-import {Graph} from './models';
+import {Node, Graph, Toolbar} from 'src/models';
+import {DefaultOptions, TreeOptions} from './settings/Options';
 
 export class ApexTree {
   public element: HTMLElement;
@@ -10,7 +9,11 @@ export class ApexTree {
   constructor(element: HTMLElement, options: TreeOptions) {
     this.element = element;
     this.options = {...DefaultOptions, ...options};
-    this.graph = new Graph(this.element, this.options);
+    const treeWrapper = document.createElement('div');
+    treeWrapper.id = 'apexTreeWrapper';
+    treeWrapper.style.position = 'relative';
+    this.graph = new Graph(treeWrapper, this.options);
+    this.element.append(treeWrapper);
   }
 
   public render(data: Node) {
@@ -18,8 +21,12 @@ export class ApexTree {
       throw new Error('Element not found');
     }
     this.graph.construct(data);
-    console.log('graph', this.graph, this.options);
     this.graph.render();
+    if (this.options.enableToolbar) {
+      const toolbar = new Toolbar(document.getElementById('apexTreeWrapper'), this.graph);
+      toolbar.create();
+    }
+    console.log('graph', this.graph, this.options);
     return this.graph;
   }
 }

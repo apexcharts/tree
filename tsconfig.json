@@ -24,4 +24,5 @@
     "esm": true,
     "experimentalSpecifierResolution": "node"
   },
+  "files": ["globals.d.ts"]
 }

@@ -1,5 +1,5 @@
 import {Node, TreeNode} from 'src/models/Graph';
-import {FontOptions, TreeOptions} from 'src/modules/settings/Options';
+import {FontOptions, TreeOptions} from 'src/settings/Options';
 
 export const setAttributes = (element: Element | null, attrs: Record<string, any> = {}) => {
   for (const key in attrs) {
@@ -83,7 +83,6 @@ export const generateStyles = (styleObject: Record<string, number | string> = {}
 export const getTooltip = (tooltipId: string = 'tooltip-container') => {
   const tooltipElement = document.getElementById(tooltipId) || document.createElement('div');
   tooltipElement.id = tooltipId;
-  // tooltipElement.setAttribute('style', 'border: 1px solid black;');
   return tooltipElement;
 };
 

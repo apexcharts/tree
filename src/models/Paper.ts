@@ -1,10 +1,10 @@
 import {Element, ForeignObject, G, Path, Rect, Svg, SVG, Text, TextAttr} from '@svgdotjs/svg.js';
 import '@svgdotjs/svg.panzoom.js';
-import {DefaultOptions, NodeOptions} from 'src/modules/settings/Options';
+import {DefaultOptions, NodeOptions} from 'src/settings/Options';
 
 export class Paper {
-  private width: number;
-  private height: number;
+  private readonly width: number;
+  private readonly height: number;
   private svg: Svg;
   constructor(element: HTMLElement, width: number, height: number, canvasStyle: string) {
     this.width = width;
@@ -27,6 +27,13 @@ export class Paper {
 
   public updateViewBox(x: number, y: number, width: number, height: number): void {
     this.svg.viewbox(`${x} ${y} ${width} ${height}`);
+  }
+
+  public zoom(zoomFactor: number): void {
+    const newZoomVal = this.svg.zoom() + zoomFactor;
+    if (newZoomVal >= 0.1) {
+      this.svg.zoom(this.svg.zoom() + zoomFactor);
+    }
   }
 
   public get(selector: string): Element {

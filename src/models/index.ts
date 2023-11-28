@@ -1,1 +1,2 @@
-export {Graph, GraphPoint} from './Graph';
+export {Graph, GraphPoint, Node, TreeNode} from './Graph';
+export {Toolbar} from './Toolbar';

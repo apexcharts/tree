@@ -1,5 +1,5 @@
 import path from 'path';
-import { Compiler, Configuration, WebpackPluginInstance } from 'webpack';
+import {Compiler, Configuration, WebpackPluginInstance} from 'webpack';
 
 export const ROOT = path.resolve(__dirname, '.');
 
@@ -53,7 +53,11 @@ export const commonConfig: CommonConfig = {
           },
         ],
       },
-      { test: /\.(less)$/, loader: "asset/resource" }
+      {test: /\.(less)$/, loader: 'asset/resource'},
+      {
+        test: /\.svg$/,
+        loader: 'raw-loader',
+      },
     ],
   },
   resolve: {
