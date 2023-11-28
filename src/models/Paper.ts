@@ -13,7 +13,7 @@ export class Paper {
       .addTo(element)
       .size(width, height)
       .viewbox(`0 0 ${width} ${height}`)
-      .panZoom({zoomFactor: 0.2})
+      .panZoom({zoomFactor: 0.2, zoomMin: 0.1})
       .attr({style: canvasStyle});
   }
 
@@ -32,7 +32,7 @@ export class Paper {
   public zoom(zoomFactor: number): void {
     const newZoomVal = this.svg.zoom() + zoomFactor;
     if (newZoomVal >= 0.1) {
-      this.svg.zoom(this.svg.zoom() + zoomFactor);
+      this.svg.zoom(newZoomVal);
     }
   }
 
