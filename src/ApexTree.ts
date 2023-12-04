@@ -24,7 +24,7 @@ export class ApexTree {
     this.graph.render();
     if (this.options.enableToolbar) {
       const toolbar = new Toolbar(document.getElementById('apexTreeWrapper'), this.graph);
-      toolbar.create();
+      toolbar.render();
     }
     console.log('graph', this.graph, this.options);
     return this.graph;

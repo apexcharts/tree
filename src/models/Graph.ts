@@ -1,7 +1,7 @@
 import {G, Path} from '@svgdotjs/svg.js';
 import {flextree, FlextreeNode} from 'd3-flextree';
-import {getEdge} from 'src/utils/EdgeUtils';
-import {generateStyles, getTooltip, getTooltipStyles, highlightToPath, updateTooltip} from 'src/utils/GraphUtils';
+import {getEdge} from 'src/utils';
+import {generateStyles, getTooltip, getTooltipStyles, highlightToPath, updateTooltip} from 'src/utils';
 import {Paper} from 'src/models/Paper';
 import {DirectionConfig} from 'src/settings/DirectionConfig';
 import {FontOptions, NodeOptions, TooltipOptions, TreeDirection, TreeOptions} from 'src/settings/Options';
@@ -72,21 +72,13 @@ export class Graph extends Paper {
 
     const group = Paper.drawGroup(x, y, node.data.id, node.parent?.data.id);
     const nodeContent = nodeTemplate(node.data[options.contentKey as keyof Node]);
-    const object = Paper.drawTemplate(nodeContent, {
-      nodeWidth,
-      nodeHeight,
-    });
-    const nodeStyle = generateStyles({
-      fontSize,
-      fontWeight,
-      fontFamily,
-      fontColor,
-    });
+    const object = Paper.drawTemplate(nodeContent, {nodeWidth, nodeHeight});
+    const nodeStyle = generateStyles({fontSize, fontWeight, fontFamily, fontColor});
     const borderStyles = generateStyles({
       borderColor,
       borderStyle,
-      borderWidth,
-      borderRadius: borderRadius,
+      borderWidth: `${borderWidth}px`,
+      borderRadius,
       backgroundColor: nodeBGColor,
     });
     object.attr('style', borderStyles);

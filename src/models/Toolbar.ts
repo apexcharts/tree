@@ -1,6 +1,8 @@
 import ZoomInIcon from 'src/icons/zoom-in-icon.svg';
 import ZoomOutIcon from 'src/icons/zoom-out-icon.svg';
 import FitScreenIcon from 'src/icons/fit-screen-icon.svg';
+import ExportIcon from 'src/icons/export-icon.svg';
+import {Export} from 'src/models/Export';
 import {Graph} from 'src/models/index';
 
 export enum ToolbarItem {
@@ -14,17 +16,21 @@ const ToolBarIcons = {
   [ToolbarItem.ZoomIn]: ZoomInIcon,
   [ToolbarItem.ZoomOut]: ZoomOutIcon,
   [ToolbarItem.FitScreen]: FitScreenIcon,
+  [ToolbarItem.Export]: ExportIcon,
 };
 
 const ZoomChangeFactor = 0.1;
 
 export class Toolbar {
+  private readonly export: Export;
   constructor(
     public element: HTMLElement | null,
     public graph: Graph,
-  ) {}
+  ) {
+    this.export = new Export(graph);
+  }
 
-  public create(): void {
+  public render(): void {
     const container = document.createElement('div');
     container.id = 'toolbar';
     container.setAttribute('style', 'display: flex;gap: 5px;position: absolute;right: 20px;top: 20px;');
@@ -32,6 +38,8 @@ export class Toolbar {
     const btnZoomIn = this.createToolbarItem(ToolbarItem.ZoomIn, ToolBarIcons[ToolbarItem.ZoomIn]);
     const btnZoomOut = this.createToolbarItem(ToolbarItem.ZoomOut, ToolBarIcons[ToolbarItem.ZoomOut]);
     const btnFitScreen = this.createToolbarItem(ToolbarItem.FitScreen, ToolBarIcons[ToolbarItem.FitScreen]);
+    const btnExport = this.createToolbarItem(ToolbarItem.Export, ToolBarIcons[ToolbarItem.Export]);
+
     btnZoomIn.addEventListener('click', () => {
       this.graph.zoom(ZoomChangeFactor);
     });
@@ -41,8 +49,11 @@ export class Toolbar {
     btnFitScreen.addEventListener('click', () => {
       this.graph.fitScreen();
     });
+    btnExport.addEventListener('click', () => {
+      this.export.exportToSVG();
+    });
 
-    container.append(btnZoomIn, btnZoomOut, btnFitScreen);
+    container.append(btnZoomIn, btnZoomOut, btnFitScreen, btnExport);
 
     this.element?.append(container);
   }
