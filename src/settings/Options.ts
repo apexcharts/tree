@@ -42,10 +42,13 @@ export interface CommonOptions {
   readonly enableToolbar: boolean;
 }
 
-export type TreeOptions = CommonOptions & NodeOptions & TooltipOptions & FontOptions;
+export type TreeOptions = CommonOptions &
+  NodeOptions &
+  TooltipOptions &
+  FontOptions;
 
 const defaultNodeTemplate = (content: string) => {
-  return `<div style='display: flex;justify-content: center;align-items: center;height: 100%;'>${content}</div>`;
+  return `<div style='display: flex;justify-content: center;align-items: center; text-align: center; height: 100%;'>${content}</div>`;
 };
 
 export const DefaultOptions: TreeOptions = {
