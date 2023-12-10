@@ -189,7 +189,8 @@ export class Graph extends Paper {
 
     if (enableTooltip) {
       const tooltipElement = getTooltip(tooltipId);
-      this.element.append(tooltipElement);
+      const body = document.body || document.getElementsByTagName('body')[0];
+      body.append(tooltipElement);
     }
   }
 }
