@@ -5,43 +5,43 @@ import {DefaultOptions, NodeOptions} from 'src/settings/Options';
 export class Paper {
   private readonly width: number;
   private readonly height: number;
-  private svg: Svg;
+  public canvas: Svg;
   constructor(element: HTMLElement, width: number, height: number, canvasStyle: string) {
     this.width = width;
     this.height = height;
-    this.svg = SVG()
+    this.canvas = SVG()
       .addTo(element)
       .size(width, height)
       .viewbox(`0 0 ${width} ${height}`)
-      .panZoom({zoomFactor: 0.2})
+      .panZoom({zoomFactor: 0.2, zoomMin: 0.1})
       .attr({style: canvasStyle});
   }
 
   public add(element: Element) {
-    this.svg.add(element);
+    this.canvas.add(element);
   }
 
   public resetViewBox(): void {
-    this.svg.viewbox(`0 0 ${this.width} ${this.height}`);
+    this.canvas.viewbox(`0 0 ${this.width} ${this.height}`);
   }
 
   public updateViewBox(x: number, y: number, width: number, height: number): void {
-    this.svg.viewbox(`${x} ${y} ${width} ${height}`);
+    this.canvas.viewbox(`${x} ${y} ${width} ${height}`);
   }
 
   public zoom(zoomFactor: number): void {
-    const newZoomVal = this.svg.zoom() + zoomFactor;
+    const newZoomVal = this.canvas.zoom() + zoomFactor;
     if (newZoomVal >= 0.1) {
-      this.svg.zoom(this.svg.zoom() + zoomFactor);
+      this.canvas.zoom(newZoomVal);
     }
   }
 
   public get(selector: string): Element {
-    return this.svg.findOne(selector) as any;
+    return this.canvas.findOne(selector) as any;
   }
 
   public clear() {
-    this.svg.clear().viewbox(`0 0 ${this.width} ${this.height}`);
+    this.canvas.clear().viewbox(`0 0 ${this.width} ${this.height}`);
   }
 
   static drawRect({
@@ -91,7 +91,9 @@ export class Paper {
       width: nodeWidth,
       height: nodeHeight,
     });
-    object.add(template);
+    const element = SVG(template);
+    element.node.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
+    object.add(element);
     return object;
   }
 

@@ -71,7 +71,7 @@ export const DefaultOptions: TreeOptions = {
   highlightOnHover: true,
   containerClassName: 'root',
   enableTooltip: false,
-  tooltipId: 'tooltip-container',
+  tooltipId: 'apextree-tooltip-container',
   tooltipMaxWidth: 100,
   tooltipBorderColor: '#BCBCBC',
   tooltipBGColor: '#FFFFFF',
