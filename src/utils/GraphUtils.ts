@@ -80,7 +80,7 @@ export const generateStyles = (styleObject: Record<string, number | string> = {}
   return styles.join(' ');
 };
 
-export const getTooltip = (tooltipId: string = 'tooltip-container') => {
+export const getTooltip = (tooltipId: string = 'apextree-tooltip-container') => {
   const tooltipElement = document.getElementById(tooltipId) || document.createElement('div');
   tooltipElement.id = tooltipId;
   return tooltipElement;
