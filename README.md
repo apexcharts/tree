@@ -1,6 +1,9 @@
 # ApexTree - Installation and Getting started
 
-The Apextree is a javascript library built on top of couple of helper libraries, and distributed as a Javascript module.
+The Apextree is a javascript library built on SVG that helps to create organizational or hierarchical charts.
+
+<img width="811" alt="Screenshot 2023-12-17 at 10 28 04 PM" src="https://github.com/apexcharts/tree/assets/17950663/e09212ec-6322-4c68-ac12-9afc524d2abd">
+
 
 ## Installation
 
