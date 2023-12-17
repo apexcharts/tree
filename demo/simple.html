@@ -1,181 +1,181 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="../dist/ApexTree.js"></script>
-</head>
-<body>
-  <div id="svg-tree" style='display: flex;align-items: center;justify-content: center;'></div>
-  <button id="layoutTop">Top</button>
-  <button id="layoutLeft">Left</button>
-  <button id="layoutRight">Right</button>
-  <button id="layoutBottom">Bottom</button>
-  <button id="fitScreen">Fit Screen</button>
-  <script>
-    const data = {
-      "id": "1",
-      "name": "A",
-      "children": [
-        {
-          "id": "2",
-          "name": "AA",
-          "children": [
-            {
-              "id": "3",
-              "name": "AAA"
-            },
-            {
-              "id": "4",
-              "name": "AAB"
-            },
-            {
-              "id": "5",
-              "name": "AAC"
-            }
-          ]
-        },
-        {
-          "id": "6",
-          "name": "AB",
-          "children": [
-            {
-              "id": "7",
-              "name": "Long text"
-            },
-            {
-              "id": "8",
-              "name": "ABB"
-            }
-          ]
-        },
-        {
-          "id": "9",
-          "name": "AC",
-          "children": [
-            {
-              "id": "10",
-              "name": "ACA"
-            },
-          ]
-        },
-        {
-          "id": "15",
-          "name": "AD",
-          "children": [
-            {
-              "id": "16",
-              "name": "ADA"
-            },
-            {
-              "id": "17",
-              "name": "AB",
-              "children": [
-                {
-                  "id": "18",
-                  "name": "Long text Long text Long text Long text Long text Long text Long text text Long text",
-                  "options": {
-                    tooltipWidth: 300,
-                  }
-                },
-                {
-                  "id": "19",
-                  "name": "ABB"
-                },
-                {
-                  "id": "11",
-                  "name": "ACB",
-                  "children": [
-                    {
-                      "id": "12",
-                      "name": "AD",
-                      "children": [
-                        {
-                          "id": "13",
-                          "name": "ADA",
-                          "children": [
-                            {
-                              "id": "24",
-                              "name": "ADA",
-                              "children": [
-                                {
-                                  "id": "26",
-                                  "name": "ADA"
-                                },
-                                {
-                                  "id": "27",
-                                  "name": "ADA"
-                                }
-                              ]
-                            },
-                            {
-                              "id": "25",
-                              "name": "ADA"
-                            }
-                          ]
-                        },
-                        {
-                          "id": "23",
-                          "name": "ADA"
-                        }
-                      ]
-                    },
-                    {
-                      "id": "14",
-                      "name": "AE"
-                    }
-                  ]
-                }
-              ]
-            },
-          ]
-        },
-        {
-          "id": "20",
-          "name": "AE"
-        },
-        {
-          "id": "21",
-          "name": "AE"
-        },
-        {
-          "id": "22",
-          "name": "AE"
-        }
-      ]
-    };
-    const options = {
-      contentKey: 'name',
-      width: 700,
-      height: 700,
-      nodeWidth: 120,
-      nodeHeight: 80,
-      childrenSpacing: 100,
-      siblingSpacing: 30,
-      direction: 'top',
-      enableTooltip: true,
-      canvasStyle: 'border: 1px solid black;background: #f6f6f6;',
-    };
-    const tree = new ApexTree(document.getElementById('svg-tree'), options);
-    const graph = tree.render(data);
-    document.getElementById('layoutTop').addEventListener('click', (e) => {
-      graph.changeLayout('top');
-    });
-    document.getElementById('layoutBottom').addEventListener('click', (e) => {
-      graph.changeLayout('bottom');
-    });
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../dist/ApexTree.js"></script>
+  </head>
+  <body>
+    <div
+      id="svg-tree"
+      style="display: flex; align-items: center; justify-content: center"
+    ></div>
+    <button id="layoutTop">Top</button>
+    <button id="layoutLeft">Left</button>
+    <button id="layoutRight">Right</button>
+    <button id="layoutBottom">Bottom</button>
+    <button id="fitScreen">Fit Screen</button>
+    <script>
+      const data = {
+        id: '1',
+        name: 'A',
+        children: [
+          {
+            id: '2',
+            name: 'AA',
+            children: [
+              {
+                id: '3',
+                name: 'AAA',
+              },
+              {
+                id: '4',
+                name: 'AAB',
+              },
+              {
+                id: '5',
+                name: 'AAC',
+              },
+            ],
+          },
+          {
+            id: '6',
+            name: 'AB',
+            children: [
+              {
+                id: '7',
+                name: 'Long text',
+              },
+              {
+                id: '8',
+                name: 'ABB',
+              },
+            ],
+          },
+          {
+            id: '9',
+            name: 'AC',
+            children: [
+              {
+                id: '10',
+                name: 'ACA',
+              },
+            ],
+          },
+          {
+            id: '15',
+            name: 'AD',
+            children: [
+              {
+                id: '16',
+                name: 'ADA',
+              },
+              {
+                id: '17',
+                name: 'AB',
+                children: [
+                  {
+                    id: '18',
+                    name: 'Long Long Long Long text',
+                  },
+                  {
+                    id: '19',
+                    name: 'ABB',
+                  },
+                  {
+                    id: '11',
+                    name: 'ACB',
+                    children: [
+                      {
+                        id: '12',
+                        name: 'AD',
+                        children: [
+                          {
+                            id: '13',
+                            name: 'ADA',
+                            children: [
+                              {
+                                id: '24',
+                                name: 'ADA',
+                                children: [
+                                  {
+                                    id: '26',
+                                    name: 'ADA',
+                                  },
+                                  {
+                                    id: '27',
+                                    name: 'ADA',
+                                  },
+                                ],
+                              },
+                              {
+                                id: '25',
+                                name: 'ADA',
+                              },
+                            ],
+                          },
+                          {
+                            id: '23',
+                            name: 'ADA',
+                          },
+                        ],
+                      },
+                      {
+                        id: '14',
+                        name: 'AE',
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            id: '20',
+            name: 'AE',
+          },
+          {
+            id: '21',
+            name: 'AE',
+          },
+          {
+            id: '22',
+            name: 'AE',
+          },
+        ],
+      };
+      const options = {
+        contentKey: 'name',
+        width: 700,
+        height: 700,
+        nodeWidth: 120,
+        nodeHeight: 80,
+        childrenSpacing: 100,
+        siblingSpacing: 30,
+        direction: 'top',
+        enableTooltip: true,
+        canvasStyle: 'border: 1px solid black;background: #f6f6f6;',
+      };
+      const tree = new ApexTree(document.getElementById('svg-tree'), options);
+      const graph = tree.render(data);
+      document.getElementById('layoutTop').addEventListener('click', (e) => {
+        graph.changeLayout('top');
+      });
+      document.getElementById('layoutBottom').addEventListener('click', (e) => {
+        graph.changeLayout('bottom');
+      });
 
-    document.getElementById('layoutLeft').addEventListener('click', (e) => {
-      graph.changeLayout('left');
-    });
-    document.getElementById('layoutRight').addEventListener('click', (e) => {
-      graph.changeLayout('right');
-    });
+      document.getElementById('layoutLeft').addEventListener('click', (e) => {
+        graph.changeLayout('left');
+      });
+      document.getElementById('layoutRight').addEventListener('click', (e) => {
+        graph.changeLayout('right');
+      });
 
-    document.getElementById('fitScreen').addEventListener('click', (e) => {
-      graph.fitScreen();
-    });
-  </script>
-</body>
+      document.getElementById('fitScreen').addEventListener('click', (e) => {
+        graph.fitScreen();
+      });
+    </script>
+  </body>
 </html>
