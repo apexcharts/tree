@@ -29,6 +29,11 @@ export interface FontOptions {
   readonly fontColor: string;
 }
 
+export interface EdgeOptions {
+  readonly edgeColor: string;
+  readonly edgeColorHover: string;
+}
+
 export interface CommonOptions {
   readonly width: number;
   readonly height: number;
@@ -45,7 +50,8 @@ export interface CommonOptions {
 export type TreeOptions = CommonOptions &
   NodeOptions &
   TooltipOptions &
-  FontOptions;
+  FontOptions &
+  EdgeOptions;
 
 const defaultNodeTemplate = (content: string) => {
   return `<div style='display: flex;justify-content: center;align-items: center; text-align: center; height: 100%;'>${content}</div>`;
@@ -81,4 +87,6 @@ export const DefaultOptions: TreeOptions = {
   fontColor: '#000000',
   canvasStyle: '',
   enableToolbar: false,
+  edgeColor: '#BCBCBC',
+  edgeColorHover: '#5C6BC0',
 };

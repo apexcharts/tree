@@ -35,9 +35,9 @@ export const highlightToPath = (
   if (selfNode.parent) {
     const edge = document.getElementById(`${selfNode.data.id}-${selfNode.parent?.data.id}`);
     if (isHighlighted) {
-      setAttributes(edge, {'stroke-width': options.borderWidth + 1, stroke: options.borderColorHover});
+      setAttributes(edge, {'stroke-width': options.borderWidth + 1, stroke: options.edgeColorHover});
     } else {
-      setAttributes(edge, {'stroke-width': options.borderWidth, stroke: options.borderColor});
+      setAttributes(edge, {'stroke-width': options.borderWidth, stroke: options.edgeColor});
     }
 
     selfNode.parent && highlightToPath(nodes, selfNode.parent, isHighlighted, options);
