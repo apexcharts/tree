@@ -49,8 +49,8 @@ The layout can be configured by either setting the properties in the table below
 
 Options | Default                      | Description
 --- |------------------------------| ---
-width | None                         | The width of graph container
-height | None                         | The height of graph container
+width | 400                         | The width of graph container
+height | 400                         | The height of graph container
 direction | top                          | The direction of the tree to start rendering. Possible values: `top`, `bottom`, `left` and `right`
 contentKey | name                         | The key of content in passed data object 
 siblingSpacing | 50                           | The spacing between sibling nodes
