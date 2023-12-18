@@ -7,7 +7,7 @@ The Apextree is a javascript library built on SVG that helps to create organizat
 
 ## Installation
 
-To add the Apex grid to your project and its dependencies, install the package from npm.
+To add the Apextree to your project and its dependencies, install the package from npm.
 
 ```bash
 npm install apextree
