@@ -1,96 +1,154 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="../dist/ApexTree.js"></script>
-</head>
-<body>
-  <div id="svg-tree" style='display: flex;justify-content: center;'></div>
-  <script>
-    const data = {
-      "id": "A",
-      "name": "A",
-      "children": [
-        {
-          "id": "AA",
-          "name": "AA",
-          "children": [
-            {
-              "id": "AAA",
-              "name": "AAA"
-            },
-            {
-              "id": "AAB",
-              "name": "AAB"
-            },
-            {
-              "id": "AAC",
-              "name": "AAC"
-            }
-          ]
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../dist/ApexTree.js"></script>
+  </head>
+  <body>
+    <div id="svg-tree" style="display: flex; justify-content: center"></div>
+    <script>
+      const data = {
+        id: 'Lucas_Alex',
+        data: {
+          name: 'Lucas Alex',
+          imageURL: 'https://i.pravatar.cc/300?img=68',
         },
-        {
-          "id": "AB",
-          "name": "AB",
-          "children": [
-            {
-              "id": "ABA",
-              "name": "ABA"
-            },
-            {
-              "id": "ABB",
-              "name": "ABB"
-            }
-          ]
+        options: {
+          nodeBGColor: '#94ddff',
         },
-        {
-          "id": "AC",
-          "name": "AC",
-          "children": [
-            {
-              "id": "ACA",
-              "name": "ACA"
+        children: [
+          {
+            id: 'Alex_Lee',
+            data: {
+              name: 'Alex Lee',
+              imageURL: 'https://i.pravatar.cc/300?img=69',
             },
-            {
-              "id": "ACB",
-              "name": "ACB"
+            options: {
+              nodeBGColor: '#ffc7c2',
             },
-            {
-              "id": "ACC",
-              "name": "ACC"
-            }
-          ]
+            children: [
+              {
+                id: 'Mia_Patel',
+                data: {
+                  name: 'Mia Patel',
+                  imageURL: 'https://i.pravatar.cc/300?img=49',
+                },
+                options: {
+                  nodeBGColor: '#e3c2ff',
+                },
+              },
+              {
+                id: 'Ryan_Clark',
+                data: {
+                  name: 'Ryan Clark',
+                  imageURL: 'https://i.pravatar.cc/300?img=13',
+                },
+                options: {
+                  nodeBGColor: '#e3c2ff',
+                },
+              },
+              {
+                id: 'Zoe_Wang',
+                data: {
+                  name: 'Zoe Wang',
+                  imageURL: 'https://i.pravatar.cc/300?img=54',
+                },
+                options: {
+                  nodeBGColor: '#e3c2ff',
+                },
+              },
+            ],
+          },
+          {
+            id: 'Leo_Kim',
+            data: {
+              name: 'Leo Kim',
+              imageURL: 'https://i.pravatar.cc/300?img=43',
+            },
+            options: {
+              nodeBGColor: '#ffc7c2',
+            },
+            children: [
+              {
+                id: 'Ava_Jones',
+                data: {
+                  name: 'Ava Jones',
+                  imageURL: 'https://i.pravatar.cc/300?img=51',
+                },
+                options: {
+                  nodeBGColor: '#d2edc5',
+                },
+              },
+              {
+                id: 'Maya_Gupta',
+                data: {
+                  name: 'Maya Gupta',
+                  imageURL: 'https://i.pravatar.cc/300?img=45',
+                },
+                options: {
+                  nodeBGColor: '#d2edc5',
+                },
+              },
+            ],
+          },
+
+          {
+            id: 'Lily_Chen',
+            data: {
+              name: 'Lily Chen',
+              imageURL: 'https://i.pravatar.cc/300?img=52',
+            },
+            options: {
+              nodeBGColor: '#ffc7c2',
+            },
+            children: [
+              {
+                id: 'Jake_Scott',
+                data: {
+                  name: 'Jake Scott',
+                  imageURL: 'https://i.pravatar.cc/300?img=65',
+                },
+                options: {
+                  nodeBGColor: '#e9f08f',
+                },
+              },
+            ],
+          },
+          {
+            id: 'Max_Ruiz',
+            data: {
+              name: 'Max Ruiz',
+              imageURL: 'https://i.pravatar.cc/300?img=50',
+            },
+            options: {
+              nodeBGColor: '#ffc7c2',
+            },
+          },
+        ],
+      };
+      const options = {
+        contentKey: 'data',
+        width: 700,
+        height: 800,
+        nodeWidth: 150,
+        nodeHeight: 70,
+        childrenSpacing: 70,
+        siblingSpacing: 30,
+        direction: 'left',
+        nodeTemplate: (content) => {
+          console.log(content);
+          return `<div style='display: flex;flex-direction: row;justify-content: space-between;align-items: center;height: 100%; box-shadow: 1px 2px 4px #ccc; padding: 0 7px;'>
+          <img style='width: 50px;height: 50px;border-radius: 50%;' src='${content.imageURL}' alt=''>
+          <div style="font-weight: bold; font-family: Arial; font-size: 14px">${content.name}</div>
+         </div>`;
         },
-        {
-          "id": "AD",
-          "name": "AD",
-          "children": [
-            {
-              "id": "ADA",
-              "name": "ADA"
-            }
-          ]
-        },
-        {
-          "id": "AE",
-          "name": "AE"
-        }
-      ]
-    };
-    const options = {
-      width: 800,
-      height: 800,
-      nodeWidth: 50,
-      nodeHeight: 30,
-      childrenSpacing: 50,
-      siblingSpacing: 20,
-      direction: 'left',
-      canvasStyle: 'border: 1px solid black;background: #f6f6f6;',
-    };
-    const tree = new ApexTree(document.getElementById('svg-tree'), options);
-    tree.render(data);
-  </script>
-</body>
+        nodeStyle: 'box-shadow: -3px 6px 8px -5px rgba(0,0,0,0.31)',
+        canvasStyle: 'border: 1px solid black;background: #f6f6f6;',
+      };
+      const tree = new ApexTree(document.getElementById('svg-tree'), options);
+      tree.render(data);
+    </script>
+  </body>
 </html>
