@@ -1,10 +1,22 @@
-import {G, Path} from '@svgdotjs/svg.js';
-import {flextree, FlextreeNode} from 'd3-flextree';
-import {getEdge} from 'src/utils';
-import {generateStyles, getTooltip, getTooltipStyles, highlightToPath, updateTooltip} from 'src/utils';
-import {Paper} from 'src/models/Paper';
-import {DirectionConfig} from 'src/settings/DirectionConfig';
-import {FontOptions, NodeOptions, TooltipOptions, TreeDirection, TreeOptions} from 'src/settings/Options';
+import { G, Path } from '@svgdotjs/svg.js';
+import { flextree, FlextreeNode } from 'd3-flextree';
+import { getEdge } from 'src/utils';
+import {
+  generateStyles,
+  getTooltip,
+  getTooltipStyles,
+  highlightToPath,
+  updateTooltip,
+} from 'src/utils';
+import { Paper } from 'src/models/Paper';
+import { DirectionConfig } from 'src/settings/DirectionConfig';
+import {
+  FontOptions,
+  NodeOptions,
+  TooltipOptions,
+  TreeDirection,
+  TreeOptions,
+} from 'src/settings/Options';
 
 export interface GraphPoint {
   readonly x: number;
@@ -34,7 +46,8 @@ export class Graph extends Paper {
   }
 
   public construct(data: Node): void {
-    const {nodeWidth, nodeHeight, siblingSpacing, childrenSpacing} = this.options;
+    const { nodeWidth, nodeHeight, siblingSpacing, childrenSpacing } =
+      this.options;
     const flexLayout = flextree({
       nodeSize: () => {
         return DirectionConfig[this.options.direction].nodeFlexSize({
@@ -52,8 +65,15 @@ export class Graph extends Paper {
 
   public renderNode(node: TreeNode<Node>, mainGroup: G) {
     const options = this.options;
-    const {nodeWidth, nodeHeight, nodeTemplate, highlightOnHover, borderRadius, enableTooltip, tooltipTemplate} =
-      options;
+    const {
+      nodeWidth,
+      nodeHeight,
+      nodeTemplate,
+      highlightOnHover,
+      borderRadius,
+      enableTooltip,
+      tooltipTemplate,
+    } = options;
     const {
       tooltipId,
       tooltipMaxWidth,
@@ -67,13 +87,22 @@ export class Graph extends Paper {
       borderStyle,
       borderColor,
       nodeBGColor,
-    } = {...options, ...node.data.options};
-    const {x, y} = DirectionConfig[options.direction].swap(node);
+      nodeStyle,
+      nodeClassName,
+    } = { ...options, ...node.data.options };
+    const { x, y } = DirectionConfig[options.direction].swap(node);
 
     const group = Paper.drawGroup(x, y, node.data.id, node.parent?.data.id);
-    const nodeContent = nodeTemplate(node.data[options.contentKey as keyof Node]);
-    const object = Paper.drawTemplate(nodeContent, {nodeWidth, nodeHeight});
-    const nodeStyle = generateStyles({fontSize, fontWeight, fontFamily, fontColor});
+    const nodeContent = nodeTemplate(
+      node.data[options.contentKey as keyof Node],
+    );
+    const object = Paper.drawTemplate(nodeContent, { nodeWidth, nodeHeight });
+    const groupStyle = generateStyles({
+      fontSize,
+      fontWeight,
+      fontFamily,
+      fontColor,
+    });
     const borderStyles = generateStyles({
       borderColor,
       borderStyle,
@@ -81,8 +110,9 @@ export class Graph extends Paper {
       borderRadius,
       backgroundColor: nodeBGColor,
     });
-    object.attr('style', borderStyles);
-    group.attr('style', nodeStyle);
+    object.attr('style', borderStyles.concat(nodeStyle));
+    object.attr('class', nodeClassName);
+    group.attr('style', groupStyle);
     group.add(object);
     const nodes = this.rootNode.nodes;
     if (highlightOnHover) {
@@ -123,10 +153,12 @@ export class Graph extends Paper {
   }
 
   public renderEdge(node: TreeNode<Node>, group: G) {
-    const {nodeWidth, nodeHeight} = this.options;
+    const { nodeWidth, nodeHeight } = this.options;
     const edge = getEdge(node, nodeWidth, nodeHeight, this.options.direction);
     if (!edge) return;
-    const path = Paper.drawPath(edge, {id: `${node.data.id}-${node.parent?.data.id}`});
+    const path = Paper.drawPath(edge, {
+      id: `${node.data.id}-${node.parent?.data.id}`,
+    });
     node.edge = path;
     group.add(path);
   }
@@ -154,32 +186,48 @@ export class Graph extends Paper {
   }
 
   public changeLayout(direction: TreeDirection = 'top') {
-    this.options = {...this.options, direction};
+    this.options = { ...this.options, direction };
     this.render();
   }
 
   public fitScreen() {
-    const {childrenSpacing, siblingSpacing} = this.options;
-    const {viewBoxDimensions} = DirectionConfig[this.options.direction];
+    const { childrenSpacing, siblingSpacing } = this.options;
+    const { viewBoxDimensions } = DirectionConfig[this.options.direction];
     const {
       x,
       y,
       width: vWidth,
       height: vHeight,
-    } = viewBoxDimensions({rootNode: this.rootNode, childrenSpacing, siblingSpacing});
+    } = viewBoxDimensions({
+      rootNode: this.rootNode,
+      childrenSpacing,
+      siblingSpacing,
+    });
     this.updateViewBox(x, y, vWidth, vHeight);
   }
 
   public render(): void {
     this.clear();
-    const {containerClassName, enableTooltip, tooltipId, fontSize, fontWeight, fontFamily, fontColor} = this.options;
-    const globalStyle = generateStyles({fontSize, fontWeight, fontFamily, fontColor});
+    const {
+      containerClassName,
+      enableTooltip,
+      tooltipId,
+      fontSize,
+      fontWeight,
+      fontFamily,
+      fontColor,
+    } = this.options;
+    const globalStyle = generateStyles({
+      fontSize,
+      fontWeight,
+      fontFamily,
+      fontColor,
+    });
     const mainGroup = Paper.drawGroup(0, 0, containerClassName);
     mainGroup.attr('style', globalStyle);
     mainGroup.id(containerClassName);
 
     const nodes = this.rootNode.nodes;
-    console.log('nodes', this.rootNode, nodes);
     nodes.forEach((node: any) => {
       this.renderNode(node, mainGroup);
       this.renderEdge(node, mainGroup);

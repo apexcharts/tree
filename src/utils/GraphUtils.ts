@@ -1,7 +1,10 @@
-import {Node, TreeNode} from 'src/models/Graph';
-import {FontOptions, TreeOptions} from 'src/settings/Options';
+import { Node, TreeNode } from 'src/models/Graph';
+import { FontOptions, TreeOptions } from 'src/settings/Options';
 
-export const setAttributes = (element: Element | null, attrs: Record<string, any> = {}) => {
+export const setAttributes = (
+  element: Element | null,
+  attrs: Record<string, any> = {},
+) => {
   for (const key in attrs) {
     element?.setAttribute(key, attrs[key]);
   }
@@ -19,7 +22,7 @@ export const highlightToPath = (
   let backgroundColor = nodeOptions?.nodeBGColor || options.nodeBGColor;
 
   if (isHighlighted) {
-    borderWidth = borderWidth + 1;
+    // borderWidth = borderWidth + 1;
     borderColor = nodeOptions?.borderColorHover || options.borderColorHover;
     backgroundColor = nodeOptions?.nodeBGColorHover || options.nodeBGColorHover;
   }
@@ -33,14 +36,23 @@ export const highlightToPath = (
   }
 
   if (selfNode.parent) {
-    const edge = document.getElementById(`${selfNode.data.id}-${selfNode.parent?.data.id}`);
+    const edge = document.getElementById(
+      `${selfNode.data.id}-${selfNode.parent?.data.id}`,
+    );
     if (isHighlighted) {
-      setAttributes(edge, {'stroke-width': options.borderWidth + 1, stroke: options.edgeColorHover});
+      setAttributes(edge, {
+        'stroke-width': options.borderWidth + 1,
+        stroke: options.edgeColorHover,
+      });
     } else {
-      setAttributes(edge, {'stroke-width': options.borderWidth, stroke: options.edgeColor});
+      setAttributes(edge, {
+        'stroke-width': options.borderWidth,
+        stroke: options.edgeColor,
+      });
     }
 
-    selfNode.parent && highlightToPath(nodes, selfNode.parent, isHighlighted, options);
+    selfNode.parent &&
+      highlightToPath(nodes, selfNode.parent, isHighlighted, options);
   }
 };
 
@@ -67,26 +79,37 @@ export const getTooltipStyles = (
   return styles;
 };
 
-export const generateStyles = (styleObject: Record<string, number | string> = {}): string => {
+export const generateStyles = (
+  styleObject: Record<string, number | string> = {},
+): string => {
   const styles = [];
   for (const styleKey in styleObject) {
     let key = styleKey;
     if (styleKey === 'fontColor') {
       key = 'color';
     }
-    const styleString = `${camelToKebabCase(key)}: ${styleObject[styleKey as keyof FontOptions]};`;
+    const styleString = `${camelToKebabCase(key)}: ${
+      styleObject[styleKey as keyof FontOptions]
+    };`;
     styles.push(styleString);
   }
   return styles.join(' ');
 };
 
-export const getTooltip = (tooltipId: string = 'apextree-tooltip-container') => {
-  const tooltipElement = document.getElementById(tooltipId) || document.createElement('div');
+export const getTooltip = (
+  tooltipId: string = 'apextree-tooltip-container',
+) => {
+  const tooltipElement =
+    document.getElementById(tooltipId) || document.createElement('div');
   tooltipElement.id = tooltipId;
   return tooltipElement;
 };
 
-export const updateTooltip = (id: string = '', styles?: string | undefined, content: string = '') => {
+export const updateTooltip = (
+  id: string = '',
+  styles?: string | undefined,
+  content: string = '',
+) => {
   const tooltipElement = document.getElementById(id);
   if (styles) {
     tooltipElement?.setAttribute('style', styles);
@@ -94,11 +117,17 @@ export const updateTooltip = (id: string = '', styles?: string | undefined, cont
     tooltipElement?.removeAttribute('style');
   }
 
-  if (tooltipElement?.innerHTML.replaceAll("'", '"') !== content.replaceAll("'", '"')) {
+  if (
+    tooltipElement?.innerHTML.replaceAll("'", '"') !==
+    content.replaceAll("'", '"')
+  ) {
     tooltipElement && (tooltipElement.innerHTML = content);
   }
 };
 
 export const camelToKebabCase = (str: string): string => {
-  return str.replace(/[A-Z]+(?![a-z])|[A-Z]/g, ($, ofs) => (ofs ? '-' : '') + $.toLowerCase());
+  return str.replace(
+    /[A-Z]+(?![a-z])|[A-Z]/g,
+    ($, ofs) => (ofs ? '-' : '') + $.toLowerCase(),
+  );
 };

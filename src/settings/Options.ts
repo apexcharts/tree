@@ -5,6 +5,8 @@ export interface NodeOptions {
   readonly nodeHeight: number;
   readonly nodeBGColor: string;
   readonly nodeBGColorHover: string;
+  readonly nodeStyle: string;
+  readonly nodeClassName: string;
   readonly nodeTemplate: (content: any) => any;
   readonly borderRadius: string;
   readonly borderWidth: number;
@@ -66,7 +68,9 @@ export const DefaultOptions: TreeOptions = {
   nodeTemplate: defaultNodeTemplate,
   nodeBGColor: '#FFFFFF',
   nodeBGColorHover: '#FFFFFF',
-  borderWidth: 1,
+  nodeStyle: '',
+  nodeClassName: 'apextree-node',
+  borderWidth: 2,
   borderStyle: 'solid',
   borderRadius: '5px',
   borderColor: '#BCBCBC',
