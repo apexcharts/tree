@@ -134,8 +134,8 @@ export class Graph extends Paper {
         : nodeContent;
       group.on('mousemove', function (e: MouseEvent) {
         const styles = getTooltipStyles(
-          e.x,
-          e.y,
+          e.pageX,
+          e.pageY,
           tooltipMaxWidth,
           tooltipBorderColor,
           tooltipBGColor,
