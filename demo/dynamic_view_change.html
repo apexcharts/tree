@@ -4,157 +4,112 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      #toolbar {
+        width: 800px;
+        margin: 20px auto;
+        text-align: right;
+      }
+    </style>
     <script src="../dist/ApexTree.js"></script>
   </head>
   <body>
-    <div
-      id="svg-tree"
-      style="display: flex; align-items: center; justify-content: center"
-    ></div>
-    <button id="layoutTop">Top</button>
-    <button id="layoutLeft">Left</button>
-    <button id="layoutRight">Right</button>
-    <button id="layoutBottom">Bottom</button>
-    <button id="fitScreen">Fit Screen</button>
+    <div>
+      <div id="toolbar">
+        <button id="layoutTop">&uarr;</button>
+        <button id="layoutBottom">&darr;</button>
+        <button id="layoutLeft">&larr;</button>
+        <button id="layoutRight">&rarr;</button>
+        <button id="fitScreen">Fit to Screen</button>
+      </div>
+      <div
+        id="svg-tree"
+        style="display: flex; align-items: center; justify-content: center"
+      ></div>
+    </div>
+
     <script>
       const data = {
-        id: '1',
-        name: 'A',
+        id: 'Species',
+        name: 'Species',
         children: [
           {
             id: '2',
-            name: 'AA',
+            name: 'Plants',
+            category: 'Species',
             children: [
               {
                 id: '3',
-                name: 'AAA',
+                name: 'Mosses',
+                category: 'Plants',
               },
               {
                 id: '4',
-                name: 'AAB',
-              },
-              {
-                id: '5',
-                name: 'AAC',
+                name: 'Ferns',
+                category: 'Plants',
               },
             ],
           },
           {
-            id: '6',
-            name: 'AB',
-            children: [
-              {
-                id: '7',
-                name: 'Long text',
-              },
-              {
-                id: '8',
-                name: 'ABB',
-              },
-            ],
+            id: '8',
+            name: 'Fungi',
           },
           {
             id: '9',
-            name: 'AC',
-            children: [
-              {
-                id: '10',
-                name: 'ACA',
-              },
-            ],
+            name: 'Lichens',
           },
           {
-            id: '15',
-            name: 'AD',
+            id: '10',
+            name: 'Animals',
             children: [
               {
-                id: '16',
-                name: 'ADA',
-              },
-              {
-                id: '17',
-                name: 'AB',
+                id: '11',
+                name: 'Invertebrates',
+                category: 'Animals',
                 children: [
                   {
-                    id: '18',
-                    name: 'Long Long Long Long text',
+                    id: '12',
+                    name: 'Insects',
+                    category: 'Invertebrates',
+                  },
+                ],
+              },
+              {
+                id: '16',
+                name: 'Vertebrates',
+                category: 'Animals',
+                children: [
+                  {
+                    id: '17',
+                    name: 'Fish',
+                    category: 'Vertebrates',
                   },
                   {
                     id: '19',
-                    name: 'ABB',
-                  },
-                  {
-                    id: '11',
-                    name: 'ACB',
-                    children: [
-                      {
-                        id: '12',
-                        name: 'AD',
-                        children: [
-                          {
-                            id: '13',
-                            name: 'ADA',
-                            children: [
-                              {
-                                id: '24',
-                                name: 'ADA',
-                                children: [
-                                  {
-                                    id: '26',
-                                    name: 'ADA',
-                                  },
-                                  {
-                                    id: '27',
-                                    name: 'ADA',
-                                  },
-                                ],
-                              },
-                              {
-                                id: '25',
-                                name: 'ADA',
-                              },
-                            ],
-                          },
-                          {
-                            id: '23',
-                            name: 'ADA',
-                          },
-                        ],
-                      },
-                      {
-                        id: '14',
-                        name: 'AE',
-                      },
-                    ],
+                    name: 'Reptiles',
+                    category: 'Vertebrates',
                   },
                 ],
               },
             ],
           },
-          {
-            id: '20',
-            name: 'AE',
-          },
-          {
-            id: '21',
-            name: 'AE',
-          },
-          {
-            id: '22',
-            name: 'AE',
-          },
         ],
       };
       const options = {
         contentKey: 'name',
-        width: 700,
+        width: 800,
         height: 700,
-        nodeWidth: 120,
-        nodeHeight: 80,
-        childrenSpacing: 100,
+        nodeWidth: 150,
+        nodeHeight: 50,
+        childrenSpacing: 150,
         siblingSpacing: 30,
         direction: 'top',
-        enableTooltip: true,
+        fontSize: '20px',
+        fontFamily: 'sans-serif',
+        fontWeight: 600,
+        fontColor: '#a06dcc',
+        borderWidth: 2,
+        borderColor: '#a06dcc',
         canvasStyle: 'border: 1px solid black;background: #f6f6f6;',
       };
       const tree = new ApexTree(document.getElementById('svg-tree'), options);
