@@ -4,7 +4,13 @@ export class Export {
   constructor(public graph: Graph) {}
 
   private getSvgString(): string {
-    return this.graph.canvas.svg();
+    const svgString = this.graph.canvas.svg();
+    
+    //due to SVG.js bug it retuns unclosed img, br and hr tags, so we explicitely closed it.
+    return svgString
+      .replace(/(<img [\w\W]+?)(>)/g, '$1 />')
+      .replace(/(<br)(>)/g, '$1 />')
+      .replace(/(<hr)(>)/g, '$1 />');
   }
 
   private svgUrl() {
