@@ -10,6 +10,8 @@ export const setAttributes = (
   }
 };
 
+export const ExpandCollapseButtonSize = 14;
+
 export const highlightToPath = (
   nodes: ReadonlyArray<TreeNode<Node>>,
   selfNode: TreeNode<Node>,
@@ -41,12 +43,12 @@ export const highlightToPath = (
     );
     if (isHighlighted) {
       setAttributes(edge, {
-        'stroke-width': options.borderWidth + 1,
+        'stroke-width': borderWidth + 1,
         stroke: options.edgeColorHover,
       });
     } else {
       setAttributes(edge, {
-        'stroke-width': options.borderWidth,
+        'stroke-width': borderWidth,
         stroke: options.edgeColor,
       });
     }

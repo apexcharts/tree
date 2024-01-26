@@ -1,6 +1,6 @@
 import { G, Path } from '@svgdotjs/svg.js';
 import { flextree, FlextreeNode } from 'd3-flextree';
-import { getEdge } from 'src/utils';
+import { ExpandCollapseButtonSize, getEdge } from 'src/utils';
 import {
   generateStyles,
   getTooltip,
@@ -17,6 +17,8 @@ import {
   TreeDirection,
   TreeOptions,
 } from 'src/settings/Options';
+import addSvg from 'src/icons/add-circle.svg';
+import minusSvg from 'src/icons/minus-circle.svg';
 
 export interface GraphPoint {
   readonly x: number;
@@ -27,6 +29,7 @@ export interface Node {
   readonly id: string;
   readonly name: string;
   readonly children: Array<Node>;
+  readonly expanded: boolean;
   readonly options?: NodeOptions & TooltipOptions & FontOptions;
 }
 
@@ -73,6 +76,7 @@ export class Graph extends Paper {
       borderRadius,
       enableTooltip,
       tooltipTemplate,
+      enableExpandCollapse,
     } = options;
     const {
       tooltipId,
@@ -91,6 +95,8 @@ export class Graph extends Paper {
       nodeClassName,
     } = { ...options, ...node.data.options };
     const { x, y } = DirectionConfig[options.direction].swap(node);
+
+    const graphInstance = this;
 
     const group = Paper.drawGroup(x, y, node.data.id, node.parent?.data.id);
     const nodeContent = nodeTemplate(
@@ -115,6 +121,7 @@ export class Graph extends Paper {
     group.attr('style', groupStyle);
     group.add(object);
     const nodes = this.rootNode.nodes;
+
     if (highlightOnHover) {
       group.on('mouseover', function () {
         const self = this.node.dataset.self;
@@ -150,6 +157,32 @@ export class Graph extends Paper {
       });
     }
     mainGroup.add(group);
+
+    if (!node.children && !node.hiddenChildren) {
+      return;
+    }
+
+    if (enableExpandCollapse) {
+      //add expand/collapse buttons
+      const expandButtonRadius = ExpandCollapseButtonSize / 2;
+      const buttonGroup = Paper.drawGroup(x + nodeWidth / 2 - expandButtonRadius, y + nodeHeight - expandButtonRadius, node.data.id);
+      const buttonClickArea = Paper.drawCircle({cx: expandButtonRadius, cy: expandButtonRadius, r: expandButtonRadius, style: 'fill: #FFF; cursor: pointer;'});
+      buttonGroup.data('expanded', false);
+      buttonGroup.add(buttonClickArea);
+      if (node.hiddenChildren) {
+        buttonGroup.add(addSvg as any);
+      } else {
+        buttonGroup.add(minusSvg as any);
+      }
+      buttonGroup.on('click', function() {
+        if (node.hiddenChildren) {
+          graphInstance.expand(this.node.dataset.self);
+        } else {
+          graphInstance.collapse(this.node.dataset.self);
+        }
+      });
+      mainGroup.add(buttonGroup);
+    }
   }
 
   public renderEdge(node: TreeNode<Node>, group: G) {
@@ -165,7 +198,7 @@ export class Graph extends Paper {
 
   public collapse(nodeId: string) {
     const nodes = this.rootNode.descendants();
-    const node = nodes.find((n: TreeNode<Node>) => n.data.name === nodeId);
+    const node = nodes.find((n: TreeNode<Node>) => n.data.id === nodeId);
     if (node?.children) {
       node.hiddenChildren = node.children;
       node.hiddenChildren.forEach((child: any) => this.collapse(child));
@@ -176,7 +209,7 @@ export class Graph extends Paper {
 
   public expand(nodeId: string) {
     const nodes = this.rootNode.descendants();
-    const node = nodes.find((n: any) => n.data.name === nodeId);
+    const node = nodes.find((n: any) => n.data.id === nodeId);
     if (node?.hiddenChildren) {
       node.children = node.hiddenChildren;
       node.children.forEach((child: any) => this.expand(child));

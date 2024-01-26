@@ -13,6 +13,7 @@ export interface NodeOptions {
   readonly borderColor: string;
   readonly borderStyle: string;
   readonly borderColorHover: string;
+  readonly enableExpandCollapse: boolean;
 }
 
 export interface TooltipOptions {
@@ -75,6 +76,7 @@ export const DefaultOptions: TreeOptions = {
   borderRadius: '5px',
   borderColor: '#BCBCBC',
   borderColorHover: '#5C6BC0',
+  enableExpandCollapse: false,
   siblingSpacing: 50,
   childrenSpacing: 50,
   direction: 'top',

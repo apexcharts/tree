@@ -1,3 +1,5 @@
+import { Circle } from '@svgdotjs/svg.js';
+import { CircleAttr } from '@svgdotjs/svg.js';
 import {Element, ForeignObject, G, Path, Rect, Svg, SVG, Text, TextAttr} from '@svgdotjs/svg.js';
 import '@svgdotjs/svg.panzoom.js';
 import {DefaultOptions, NodeOptions} from 'src/settings/Options';
@@ -67,10 +69,13 @@ export class Paper {
     return rect;
   }
 
-  static drawText(
-    text: string = '',
-    {x = undefined, y = undefined, dx = undefined, dy = undefined}: Partial<TextAttr>,
-  ): Text {
+  static drawCircle(attributes: CircleAttr = {}): Circle {
+    const circle = new Circle();
+    circle.attr(attributes);
+    return circle;
+  }
+
+  static drawText(text: string = '', {x, y, dx, dy}: Partial<TextAttr>): Text {
     const textSvg = new Text();
     textSvg.font({fill: '#f06'});
     textSvg.tspan(text);
@@ -97,7 +102,7 @@ export class Paper {
     return object;
   }
 
-  static drawGroup(x: number = 0, y: number = 0, id: string, parent: string = ''): G {
+  static drawGroup(x: number = 0, y: number = 0, id?: string, parent?: string): G {
     const group = new G();
     group.attr({transform: `translate(${x}, ${y})`, 'data-self': id, 'data-parent': parent});
     return group;

@@ -7,7 +7,8 @@
   "jsdelivr": "dist/ApexTree.js",
   "scripts": {
     "serve": "webpack-dev-server",
-    "build:dev": "webpack --mode development --watch",
+    "watch": "webpack --mode development --watch",
+    "build:dev": "webpack --mode development",
     "build:prod": "webpack --mode production",
     "lint": "eslint . --ext .ts"
   },
