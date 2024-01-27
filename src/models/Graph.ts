@@ -203,7 +203,7 @@ export class Graph extends Paper {
       node.hiddenChildren = node.children;
       node.hiddenChildren.forEach((child: any) => this.collapse(child));
       node.children = undefined;
-      this.render();
+      this.render({keepOldPosition: true});
     }
   }
 
@@ -214,13 +214,13 @@ export class Graph extends Paper {
       node.children = node.hiddenChildren;
       node.children.forEach((child: any) => this.expand(child));
       node.hiddenChildren = undefined;
-      this.render();
+      this.render({keepOldPosition: true});
     }
   }
 
   public changeLayout(direction: TreeDirection = 'top') {
     this.options = { ...this.options, direction };
-    this.render();
+    this.render({keepOldPosition: false});
   }
 
   public fitScreen() {
@@ -239,7 +239,8 @@ export class Graph extends Paper {
     this.updateViewBox(x, y, vWidth, vHeight);
   }
 
-  public render(): void {
+  public render({keepOldPosition = false} = {}): void {
+    const oldViewbox = this.canvas.viewbox();
     this.clear();
     const {
       containerClassName,
@@ -262,11 +263,17 @@ export class Graph extends Paper {
 
     const nodes = this.rootNode.nodes;
     nodes.forEach((node: any) => {
-      this.renderNode(node, mainGroup);
       this.renderEdge(node, mainGroup);
+    });
+    nodes.forEach((node: any) => {
+      this.renderNode(node, mainGroup);
     });
     this.add(mainGroup);
     this.fitScreen();
+
+    if (keepOldPosition) {
+      this.updateViewBox(oldViewbox.x, oldViewbox.y, oldViewbox.width, oldViewbox.height);
+    }
 
     if (enableTooltip) {
       const tooltipElement = getTooltip(tooltipId);
