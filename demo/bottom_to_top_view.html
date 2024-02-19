@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="../dist/ApexTree.js"></script>
+  </head>
+  <body>
+    <div id="svg-tree" style="display: flex; justify-content: center"></div>
+    <script>
+      const data = {
+        id: 'Lucas_Alex',
+        data: {
+          name: 'Lucas Alex',
+          imageURL: 'https://i.pravatar.cc/300?img=68',
+          borderColor: '#94ddff',
+        },
+
+        children: [
+          {
+            id: 'Alex_Lee',
+            data: {
+              name: 'Alex Lee',
+              imageURL: 'https://i.pravatar.cc/300?img=69',
+              borderColor: '#ffc7c2',
+            },
+
+            children: [
+              {
+                id: 'Mia_Patel',
+                data: {
+                  name: 'Mia Patel',
+                  imageURL: 'https://i.pravatar.cc/300?img=49',
+                  borderColor: '#e3c2ff',
+                },
+              },
+              {
+                id: 'Ryan_Clark',
+                data: {
+                  name: 'Ryan Clark',
+                  imageURL: 'https://i.pravatar.cc/300?img=13',
+                  borderColor: '#e3c2ff',
+                },
+              },
+              {
+                id: 'Zoe_Wang',
+                data: {
+                  name: 'Zoe Wang',
+                  imageURL: 'https://i.pravatar.cc/300?img=54',
+                  borderColor: '#e3c2ff',
+                },
+              },
+            ],
+          },
+          {
+            id: 'Leo_Kim',
+            data: {
+              name: 'Leo Kim',
+              imageURL: 'https://i.pravatar.cc/300?img=43',
+              borderColor: '#ffc7c2',
+            },
+
+            children: [
+              {
+                id: 'Ava_Jones',
+                data: {
+                  name: 'Ava Jones',
+                  imageURL: 'https://i.pravatar.cc/300?img=51',
+                  borderColor: '#d2edc5',
+                },
+              },
+              {
+                id: 'Maya_Gupta',
+                data: {
+                  name: 'Maya Gupta',
+                  imageURL: 'https://i.pravatar.cc/300?img=45',
+                  borderColor: '#d2edc5',
+                },
+              },
+            ],
+          },
+
+          {
+            id: 'Max_Ruiz',
+            data: {
+              name: 'Max Ruiz',
+              imageURL: 'https://i.pravatar.cc/300?img=50',
+              borderColor: '#ffc7c2',
+            },
+          },
+        ],
+      };
+      const options = {
+        contentKey: 'data',
+        width: 1000,
+        height: 600,
+        nodeWidth: 150,
+        nodeHeight: 70,
+        childrenSpacing: 70,
+        siblingSpacing: 30,
+        direction: 'bottom',
+        nodeTemplate: (content) => {
+          return `<div style="display: flex; flex-direction: column; height: 100%;">
+                    <div style='display: flex;flex-direction: row;justify-content: space-between;align-items: center;height: 100%; box-shadow: 1px 2px 4px #ccc; padding: 0 7px;'>
+                      <img style='width: 50px;height: 50px;border-radius: 50%;' src='${content.imageURL}' alt='' />
+                      <div style="font-weight: bold; font-family: Arial; font-size: 14px">${content.name}</div>
+                    </div>
+                    <div style='margin-top: auto; border-bottom: 10px solid ${content.borderColor}'></div>
+                  </div>`;
+        },
+        nodeStyle: 'box-shadow: -3px -6px 8px -5px rgba(0,0,0,0.31);',
+        canvasStyle: 'border: 1px solid black;background: #f6f6f6;',
+      };
+      const tree = new ApexTree(document.getElementById('svg-tree'), options);
+      tree.render(data);
+    </script>
+  </body>
+</html>

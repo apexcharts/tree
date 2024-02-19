@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #toolbar {
+        width: 800px;
+        margin: 20px auto;
+        text-align: right;
+      }
+    </style>
+    <script src="../dist/ApexTree.js"></script>
+  </head>
+  <body>
+    <div>
+      <div id="toolbar">
+        <button id="layoutTop">&uarr;</button>
+        <button id="layoutBottom">&darr;</button>
+        <button id="layoutLeft">&larr;</button>
+        <button id="layoutRight">&rarr;</button>
+        <button id="fitScreen">Fit to Screen</button>
+      </div>
+      <div
+        id="svg-tree"
+        style="display: flex; align-items: center; justify-content: center"
+      ></div>
+    </div>
+
+    <script>
+      const data = {
+        id: 'Species',
+        name: 'Species',
+        children: [
+          {
+            id: '2',
+            name: 'Plants',
+            category: 'Species',
+            children: [
+              {
+                id: '3',
+                name: 'Mosses',
+                category: 'Plants',
+              },
+              {
+                id: '4',
+                name: 'Ferns',
+                category: 'Plants',
+              },
+            ],
+          },
+          {
+            id: '8',
+            name: 'Fungi',
+          },
+          {
+            id: '9',
+            name: 'Lichens',
+          },
+          {
+            id: '10',
+            name: 'Animals',
+            children: [
+              {
+                id: '11',
+                name: 'Invertebrates',
+                category: 'Animals',
+                children: [
+                  {
+                    id: '12',
+                    name: 'Insects',
+                    category: 'Invertebrates',
+                  },
+                ],
+              },
+              {
+                id: '16',
+                name: 'Vertebrates',
+                category: 'Animals',
+                children: [
+                  {
+                    id: '17',
+                    name: 'Fish',
+                    category: 'Vertebrates',
+                  },
+                  {
+                    id: '19',
+                    name: 'Reptiles',
+                    category: 'Vertebrates',
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      };
+      const options = {
+        contentKey: 'name',
+        width: 800,
+        height: 700,
+        nodeWidth: 150,
+        nodeHeight: 50,
+        childrenSpacing: 150,
+        siblingSpacing: 30,
+        direction: 'top',
+        fontSize: '20px',
+        fontFamily: 'sans-serif',
+        fontWeight: 600,
+        fontColor: '#a06dcc',
+        borderWidth: 2,
+        borderColor: '#a06dcc',
+        canvasStyle: 'border: 1px solid black;background: #f6f6f6;',
+      };
+      const tree = new ApexTree(document.getElementById('svg-tree'), options);
+      const graph = tree.render(data);
+      document.getElementById('layoutTop').addEventListener('click', (e) => {
+        graph.changeLayout('top');
+      });
+      document.getElementById('layoutBottom').addEventListener('click', (e) => {
+        graph.changeLayout('bottom');
+      });
+
+      document.getElementById('layoutLeft').addEventListener('click', (e) => {
+        graph.changeLayout('left');
+      });
+      document.getElementById('layoutRight').addEventListener('click', (e) => {
+        graph.changeLayout('right');
+      });
+
+      document.getElementById('fitScreen').addEventListener('click', (e) => {
+        graph.fitScreen();
+      });
+    </script>
+  </body>
+</html>

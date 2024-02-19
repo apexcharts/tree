@@ -1,0 +1,31 @@
+{
+  "name": "apextree",
+  "version": "1.0.0",
+  "description": "The Apextree is a javascript library built on SVG that helps to create organizational/hierarchy charts.",
+  "main": "dist/ApexTree.js",
+  "unpkg": "dist/ApexTree.js",
+  "jsdelivr": "dist/ApexTree.js",
+  "scripts": {
+    "serve": "webpack-dev-server"
+  },
+  "author": "ApexCharts",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apexcharts/tree.git"
+  },
+  "keywords": [
+    "orgchart",
+    "organizational",
+    "chart",
+    "org",
+    "tree",
+    "javascript",
+    "svg",
+    "hierarchy"
+  ],
+  "bugs": {
+    "url": "https://github.com/apexcharts/tree/issues"
+  },
+  "homepage": "https://github.com/apexcharts/tree#readme"
+}
