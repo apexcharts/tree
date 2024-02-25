@@ -1,6 +1,6 @@
 {
   "name": "apextree",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "The Apextree is a javascript library built on SVG that helps to create organizational/hierarchy charts.",
   "main": "dist/ApexTree.js",
   "unpkg": "dist/ApexTree.js",
