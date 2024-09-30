@@ -1,13 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="../dist/ApexTree.js"></script>
+    <script src="../apextree.min.js"></script>
   </head>
   <body>
-    <div id="svg-tree" style="display: flex; justify-content: center"></div>
+    <div id="svg-tree" style="margin: 0 auto;"></div>
     <script>
       const data = {
         id: 'Lucas_Alex',
@@ -93,19 +93,21 @@
       };
       const options = {
         contentKey: 'data',
-        width: 1000,
-        height: 600,
+        width: '90%',
+        height: 'auto',
         nodeWidth: 150,
         nodeHeight: 70,
         childrenSpacing: 70,
         siblingSpacing: 30,
         direction: 'bottom',
         nodeTemplate: (content) => {
-          console.log(content);
-          return `<div style="display: flex; flex-direction: column; height: 100%;"><div style='display: flex;flex-direction: row;justify-content: space-between;align-items: center;height: 100%; box-shadow: 1px 2px 4px #ccc; padding: 0 7px;'>
-          <img style='width: 50px;height: 50px;border-radius: 50%;' src='${content.imageURL}' alt=''>
-          <div style="font-weight: bold; font-family: Arial; font-size: 14px">${content.name}</div>
-         </div><div style='margin-top: auto; border-bottom: 10px solid ${content.borderColor}'></div></div>`;
+          return `<div style="display: flex; flex-direction: column; height: 100%;">
+                    <div style='display: flex;flex-direction: row;justify-content: space-between;align-items: center;height: 100%; box-shadow: 1px 2px 4px #ccc; padding: 0 7px;'>
+                      <img style='width: 50px;height: 50px;border-radius: 50%;' src='${content.imageURL}' alt='' />
+                      <div style="font-weight: bold; font-family: Arial; font-size: 14px">${content.name}</div>
+                    </div>
+                    <div style='margin-top: auto; border-bottom: 10px solid ${content.borderColor}'></div>
+                  </div>`;
         },
         nodeStyle: 'box-shadow: -3px -6px 8px -5px rgba(0,0,0,0.31);',
         canvasStyle: 'border: 1px solid black;background: #f6f6f6;',

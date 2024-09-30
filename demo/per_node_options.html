@@ -1,19 +1,16 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="../dist/ApexTree.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
+    <script src="../apextree.min.js"></script>
   </head>
   <body>
-    <div id="svg-tree" style="display: flex; justify-content: center"></div>
+    <div id="svg-tree" style="margin: 0 auto;"></div>
     <script>
       const data = {
         id: '1',
@@ -147,8 +144,7 @@
       };
       const options = {
         contentKey: 'name',
-        width: 1200,
-        height: 800,
+        width: 800,
         nodeWidth: 180,
         nodeHeight: 50,
         childrenSpacing: 180,

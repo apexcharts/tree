@@ -1,13 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="../dist/ApexTree.js"></script>
+    <script src="../apextree.min.js"></script>
   </head>
   <body>
-    <div id="svg-tree" style="display: flex; justify-content: center"></div>
+    <div id="svg-tree" style="margin: 0 auto;"></div>
     <script>
       const data = {
         id: 'Lucas_Alex',
@@ -130,8 +130,8 @@
       };
       const options = {
         contentKey: 'data',
-        width: 700,
-        height: 800,
+        width: 800,
+        height: 'auto',
         nodeWidth: 150,
         nodeHeight: 70,
         childrenSpacing: 70,
